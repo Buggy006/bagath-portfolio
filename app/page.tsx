@@ -31,7 +31,7 @@ export default function Portfolio() {
 
   useEffect(() => {
     // Initialize EmailJS
-    emailjs.init(process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY!);
+    emailjs.init(process.env.EMAILJS_PUBLIC_KEY!);
 
     const observerOptions = {
       root: null,
@@ -67,8 +67,8 @@ export default function Portfolio() {
 
     try {
       await emailjs.sendForm(
-        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID!,
-        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID!,
+        process.env.EMAILJS_SERVICE_ID!,
+        process.env.EMAILJS_TEMPLATE_ID!,
         e.currentTarget
       );
       setFormState({
