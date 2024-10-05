@@ -149,7 +149,7 @@ export default function Portfolio() {
 
       <section
         id="home"
-        ref={(el) => (sectionsRef.current['home'] = el)}
+        ref={(el) => {sectionsRef.current['home'] = el}}
         className="h-screen flex flex-col justify-center items-center relative bg-gradient-to-b from-black to-gray-900"
       >
         <motion.div style={{ opacity, scale }} className="text-center px-4">
@@ -183,7 +183,7 @@ export default function Portfolio() {
 
       <section
         id="about"
-        ref={(el) => (sectionsRef.current['about'] = el)}
+        ref={(el) => {sectionsRef.current['about'] = el}}
         className="min-h-screen py-16 md:py-20 px-4 md:px-6 flex flex-col md:flex-row items-center justify-center bg-black"
       >
         <motion.div
@@ -225,7 +225,7 @@ export default function Portfolio() {
 
       <section
         id="interest"
-        ref={(el) => (sectionsRef.current['interest'] = el)}
+        ref={(el) => {sectionsRef.current['interest'] = el}}
         className="min-h-screen py-16 md:py-20 px-4 md:px-6 bg-gray-900"
       >
         <h2 className="text-3xl md:text-4xl font-bold mb-8 md:mb-12 text-center text-white">My Interests</h2>
@@ -280,7 +280,7 @@ export default function Portfolio() {
 
       <section
         id="contact"
-        ref={(el) => (sectionsRef.current['contact'] = el)}
+        ref={(el) => {sectionsRef.current['contact'] = el}}
         className="min-h-screen py-16 md:py-20 px-4 md:px-6 flex flex-col items-center justify-center bg-gradient-to-b from-black to-gray-900"
       >
         <h2 className="text-3xl md:text-4xl font-bold mb-8 md:mb-12 text-white">Get in Touch</h2>
