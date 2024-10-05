@@ -1,0 +1,9 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.bg-pattern {
+  background-color: #000000;
+  background-image: radial-gradient(#ffffff 0.5px, transparent 0.5px);
+  background-size: 10px 10px;
+}
