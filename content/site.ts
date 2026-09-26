@@ -12,7 +12,7 @@ export const site = {
   role: "Software Engineer",
 
   tagline:
-    "I build data platforms and the cloud infrastructure they run on — from first commit to production, with Python, AWS, and Terraform.",
+    "I build reliable data platforms and cloud infrastructure — Python, AWS, Terraform, and the pipelines in between.",
 
   // [PLACEHOLDER] contact email shown on the site
   email: "you@example.com",
@@ -47,26 +47,31 @@ export const skills = {
     {
       title: "Languages & Data",
       icon: "code" as const,
+      level: { label: "Intermediate", value: 0.6 },
       items: ["Python", "SQL", "PySpark", "Pandas", "Bash"],
     },
     {
       title: "AWS & Cloud",
       icon: "cloud" as const,
+      level: { label: "Intermediate", value: 0.6 },
       items: ["Lambda", "Glue", "EMR", "Step Functions", "S3", "DynamoDB", "CloudWatch"],
     },
     {
       title: "Infrastructure as Code",
       icon: "layers" as const,
+      level: { label: "Intermediate", value: 0.6 },
       items: ["Terraform", "GitHub Actions", "OIDC Deployments", "Docker", "Poetry", "Linux"],
     },
     {
       title: "Data Engineering",
       icon: "database" as const,
+      level: { label: "Intermediate", value: 0.6 },
       items: ["ETL / ELT", "Apache Iceberg", "Spark Window Functions", "Data Lakes", "Pipeline Orchestration"],
     },
     {
       title: "Generative AI",
       icon: "sparkles" as const,
+      level: { label: "Getting started", value: 0.25 },
       items: ["LLM APIs", "RAG Pipelines", "AI Agents", "Amazon Bedrock", "Prompt Engineering"],
     },
   ],
@@ -80,11 +85,10 @@ export const experience = {
       title: "Software Engineer — Data Platform",
       period: "2024 — Present", // [PLACEHOLDER] confirm start year
       points: [
-        "Founding engineer of an enterprise analytics platform — took the repository from its first commit to a production system, establishing multi-environment CI/CD (GitHub Actions with keyless OIDC auth to AWS), Terraform standards, and the conventions the whole team builds on.",
-        "Delivered five Agile engineering metrics — Flow Velocity, Cycle Time, WIP, Backlog, Time-to-Clear — in eight days, as PySpark Glue jobs built on Spark window functions.",
-        "Built a four-Lambda automation suite managing epic, story, and release lifecycles through the Jira REST API, with AWS Step Functions orchestrating the analytics pipelines.",
-        "Root-caused and resolved a production dead-letter-queue incident: compound Lambda timeouts fixed with incremental Apache Iceberg writes and measured memory tuning.",
-        "Authored the platform operations manual and a tested, reusable EMR client library — cutting onboarding time and boilerplate for the team.",
+        "Founding engineer of an enterprise analytics platform — first commit to production, owning the multi-environment CI/CD (GitHub Actions + OIDC) and Terraform standards the team builds on.",
+        "Built PySpark Glue jobs delivering five Agile engineering metrics, orchestrated with AWS Step Functions.",
+        "Automated Jira epic, story, and release workflows with a suite of four Lambdas.",
+        "Resolved a production DLQ incident with incremental Apache Iceberg writes and measured memory tuning.",
       ],
     },
     {
@@ -92,8 +96,8 @@ export const experience = {
       title: "Apprentice Trainee — IT Hub",
       period: "2022 — 2024",
       points: [
-        "Supported operations across the entire IT hub, maintaining employee data and internal tooling for the full hub organization.",
-        "Built ground-level understanding of the products and services landscape — context that now shapes how I design platforms people actually use.",
+        "Supported IT hub operations end to end — employee data, internal tooling, and day-to-day management.",
+        "Built early understanding of enterprise products and services.",
       ],
     },
   ],
