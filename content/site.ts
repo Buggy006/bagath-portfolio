@@ -2,8 +2,7 @@
  * ─────────────────────────────────────────────────────────────────
  *  SINGLE SOURCE OF TRUTH for everything shown on the site.
  *
- *  Every value marked [PLACEHOLDER] is sample content — replace it
- *  with your real details. No other file needs to change.
+ *  Remaining [PLACEHOLDER]s: contact email, current-role start year.
  * ─────────────────────────────────────────────────────────────────
  */
 
@@ -12,35 +11,32 @@ export const site = {
   nickname: "Buggy", // used for the nav wordmark
   role: "Software Engineer",
 
-  // [PLACEHOLDER] one-line positioning statement (hero + meta description)
   tagline:
-    "I build reliable data platforms and cloud infrastructure — Python, AWS, Terraform, and the pipelines in between.",
+    "I build data platforms and the cloud infrastructure they run on — from first commit to production, with Python, AWS, and Terraform.",
 
-  // [PLACEHOLDER] contact email shown on the site (kept out of mailto scrapers where possible)
+  // [PLACEHOLDER] contact email shown on the site
   email: "you@example.com",
 
-  location: "India", // [PLACEHOLDER]
+  location: "Chennai, Tamil Nadu, India",
 
   social: {
     github: "https://github.com/Buggy006",
-    linkedin: "https://www.linkedin.com/in/your-handle", // [PLACEHOLDER]
-    instagram: "", // [PLACEHOLDER] optional — empty string hides the icon
+    linkedin: "https://www.linkedin.com/in/bagath-singh-40aba0216/",
+    instagram: "https://www.instagram.com/_buggy.so_/",
   },
 };
 
 export const about = {
   heading: "About",
-  // [PLACEHOLDER] 2–3 short paragraphs. Keep it human, not a resume dump.
   paragraphs: [
-    "I'm a software engineer focused on the layer where data meets infrastructure: designing pipelines that don't wake anyone up at night, and cloud platforms that teams can build on without thinking about them.",
-    "My day-to-day toolkit is Python, AWS, and Terraform — used to ship everything from serverless data workflows to hardened production environments. I care about systems that are observable, reproducible, and boring in the best way.",
-    "Outside of work I train seriously, and I'm building toward coaching others — bringing the same systems thinking to fitness that I bring to engineering.",
+    "I'm a software engineer at BMW TechWorks India, based in Chennai. Most recently I've been the founding engineer of an enterprise analytics platform — on it from the repository's very first commit, building the CI/CD, infrastructure, and conventions the whole team now ships on.",
+    "My work spans the full platform: PySpark and Glue pipelines, Lambda automation, Step Function orchestration, and the Terraform + GitHub Actions foundations underneath — all on AWS, all as code. Four years in, I care most about systems that are observable, reproducible, and boring in the best way.",
+    "Outside of work I train for an athletic, strong physique the same way I engineer: with a system. I'm building toward coaching others who want structure instead of guesswork.",
   ],
-  // Quick facts rendered beside the paragraphs
   facts: [
-    { label: "Experience", value: "X+ years" }, // [PLACEHOLDER]
-    { label: "Focus", value: "Data, Cloud & Gen-AI" },
-    { label: "Based in", value: "India" }, // [PLACEHOLDER]
+    { label: "Experience", value: "4+ years" },
+    { label: "Focus", value: "Data Platforms & Cloud" },
+    { label: "Based in", value: "Chennai, India" },
     { label: "Open to", value: "Interesting problems" },
   ],
 };
@@ -51,22 +47,22 @@ export const skills = {
     {
       title: "Languages & Data",
       icon: "code" as const,
-      items: ["Python", "SQL", "Pandas", "PySpark", "Bash"],
+      items: ["Python", "SQL", "PySpark", "Pandas", "Bash"],
     },
     {
       title: "AWS & Cloud",
       icon: "cloud" as const,
-      items: ["Lambda", "S3", "Glue", "ECS", "CloudFront", "IAM", "CloudWatch"],
+      items: ["Lambda", "Glue", "EMR", "Step Functions", "S3", "DynamoDB", "CloudWatch"],
     },
     {
       title: "Infrastructure as Code",
       icon: "layers" as const,
-      items: ["Terraform", "Docker", "GitHub Actions", "CI/CD", "Linux"],
+      items: ["Terraform", "GitHub Actions", "OIDC Deployments", "Docker", "Poetry", "Linux"],
     },
     {
       title: "Data Engineering",
       icon: "database" as const,
-      items: ["Airflow", "ETL / ELT", "Data Lakes", "Warehousing", "Streaming"],
+      items: ["ETL / ELT", "Apache Iceberg", "Spark Window Functions", "Data Lakes", "Pipeline Orchestration"],
     },
     {
       title: "Generative AI",
@@ -78,25 +74,26 @@ export const skills = {
 
 export const experience = {
   heading: "Experience",
-  // [PLACEHOLDER] most recent first
   roles: [
     {
-      company: "Company Name",
-      title: "Software Engineer — Data & Platform",
-      period: "2023 — Present",
+      company: "BMW TechWorks India",
+      title: "Software Engineer — Data Platform",
+      period: "2024 — Present", // [PLACEHOLDER] confirm start year
       points: [
-        "Built and operated Python/AWS data pipelines processing X records per day.",
-        "Provisioned production infrastructure with Terraform across multiple environments.",
-        "Cut pipeline failure rate / cloud spend / build time by X% — pick a real win.",
+        "Founding engineer of an enterprise analytics platform — took the repository from its first commit to a production system, establishing multi-environment CI/CD (GitHub Actions with keyless OIDC auth to AWS), Terraform standards, and the conventions the whole team builds on.",
+        "Delivered five Agile engineering metrics — Flow Velocity, Cycle Time, WIP, Backlog, Time-to-Clear — in eight days, as PySpark Glue jobs built on Spark window functions.",
+        "Built a four-Lambda automation suite managing epic, story, and release lifecycles through the Jira REST API, with AWS Step Functions orchestrating the analytics pipelines.",
+        "Root-caused and resolved a production dead-letter-queue incident: compound Lambda timeouts fixed with incremental Apache Iceberg writes and measured memory tuning.",
+        "Authored the platform operations manual and a tested, reusable EMR client library — cutting onboarding time and boilerplate for the team.",
       ],
     },
     {
-      company: "Previous Company",
-      title: "DevOps / Cloud Engineer",
-      period: "2021 — 2023",
+      company: "BMW Group India",
+      title: "Apprentice Trainee — IT Hub",
+      period: "2022 — 2024",
       points: [
-        "Automated deployments with CI/CD, taking releases from hours to minutes.",
-        "Hardened Linux servers and web infrastructure (SSL, firewalld, security headers).",
+        "Supported operations across the entire IT hub, maintaining employee data and internal tooling for the full hub organization.",
+        "Built ground-level understanding of the products and services landscape — context that now shapes how I design platforms people actually use.",
       ],
     },
   ],
@@ -104,21 +101,20 @@ export const experience = {
 
 export const projects = {
   heading: "Selected work",
-  // [PLACEHOLDER] 3–4 projects with real links. Delete or add entries freely.
   items: [
+    {
+      title: "Enterprise Analytics Platform",
+      description:
+        "Founding engineer on a BMW data platform: multi-environment CI/CD with OIDC, a PySpark metrics suite, Jira automation Lambdas, and Step Function orchestration. Private codebase — happy to talk through the architecture.",
+      tags: ["PySpark", "Glue", "Lambda", "Terraform"],
+      link: "", // private — renders without an external link
+    },
     {
       title: "Serverless Infrastructure Setup",
       description:
         "Event-driven serverless architecture on AWS — Lambda, S3, and IAM provisioned end-to-end as code.",
       tags: ["AWS", "Terraform", "Serverless"],
       link: "https://github.com/Buggy006/Serveless-Infrastructure-Setup",
-    },
-    {
-      title: "Data Pipeline Project",
-      description:
-        "A production-style ETL pipeline: ingestion, validation, transformation, and warehouse loading with full observability.",
-      tags: ["Python", "Airflow", "Data Engineering"],
-      link: "https://github.com/Buggy006", // [PLACEHOLDER]
     },
     {
       title: "This Website",
@@ -133,12 +129,10 @@ export const projects = {
 export const fitness = {
   label: "Beyond code",
   heading: "Engineering meets fitness",
-  // [PLACEHOLDER] your actual fitness story — lifting? running? transformation?
-  body: "Training is the other system I build. The same principles that make software reliable — consistency, measurement, iteration — are what make training work. I'm putting together a coaching practice to help other engineers and busy professionals get strong without guesswork.",
+  body: "I'm training for an athletic, strong physique the way I build software: with a system — progressive overload, tracked metrics, honest iteration. Coaching is on the way, for engineers and busy professionals who want structure instead of guesswork.",
   status: "Coaching — coming soon",
   cta: {
     text: "Join the waitlist",
-    // Waitlist is a pre-filled email for now; swap for a form/service later.
     subject: "Fitness coaching waitlist",
   },
 };
