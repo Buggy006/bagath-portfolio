@@ -8,6 +8,13 @@ into its own thing.
 **Hosting:** S3 + CloudFront, provisioned with Terraform (see [`infra/`](infra/))
 **CI/CD:** GitHub Actions — builds on every push, deploys `master` to AWS
 
+## Persona switch
+
+The hero toggle flips the whole site between the **engineer** profile
+(blue) and the **athlete** profile (amber) — different sections, accent
+color, nav, and CTAs. The choice is remembered per visitor and shareable
+via URL: link `/?p=athlete` from Instagram, the plain URL from LinkedIn.
+
 ## Editing content
 
 Everything shown on the site lives in **[`content/site.ts`](content/site.ts)**.

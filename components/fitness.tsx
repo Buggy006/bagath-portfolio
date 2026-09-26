@@ -1,11 +1,13 @@
+"use client";
+
 import { Dumbbell } from "lucide-react";
 import { Reveal } from "./reveal";
 import { fitness, site } from "@/content/site";
+import { PersonaSwitchButton } from "./persona";
 
 /**
- * Fitness teaser — intentionally its own warm-toned band so the future
- * coaching brand feels distinct from the engineering sections. Grows into
- * a full /fitness page (or its own site) later.
+ * Engineer-mode teaser for the fitness sub-brand — warm amber band
+ * with a jump into full athlete mode.
  */
 export function Fitness() {
   const mailto = `mailto:${site.email}?subject=${encodeURIComponent(
@@ -29,12 +31,15 @@ export function Fitness() {
             {fitness.body}
           </p>
           <div className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:justify-center">
-            <span className="rounded-full border border-amber-200 bg-white px-4 py-1.5 font-mono text-xs text-amber-700">
-              {fitness.status}
-            </span>
+            <PersonaSwitchButton
+              to="athlete"
+              className="rounded-full bg-amber-700 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-amber-800"
+            >
+              Explore athlete mode →
+            </PersonaSwitchButton>
             <a
               href={mailto}
-              className="rounded-full bg-amber-700 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-amber-800"
+              className="rounded-full border border-amber-200 bg-white px-6 py-3 text-sm font-medium text-amber-800 transition-colors hover:border-amber-400"
             >
               {fitness.cta.text}
             </a>

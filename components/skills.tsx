@@ -25,7 +25,7 @@ export function Skills() {
           return (
             <Reveal key={group.title} delay={i * 80}>
               <div className="flex h-full flex-col rounded-2xl border border-neutral-200 bg-white p-6">
-                <Icon size={22} className="text-blue-600" />
+                <Icon size={22} className="text-accent transition-colors" />
                 <h3 className="mt-4 font-semibold">{group.title}</h3>
                 <ul className="mt-3 flex-1 space-y-1.5">
                   {group.items.map((item) => (
@@ -41,12 +41,12 @@ export function Skills() {
                     {group.level.label}
                   </span>
                   <div
-                    className="mt-1.5 h-1 rounded-full bg-blue-100"
+                    className="mt-1.5 h-1 rounded-full bg-accent-soft transition-colors"
                     role="img"
                     aria-label={`${group.title} proficiency: ${group.level.label}`}
                   >
                     <div
-                      className="h-1 rounded-full bg-blue-600"
+                      className="h-1 rounded-full bg-accent transition-colors"
                       style={{ width: `${group.level.value * 100}%` }}
                     />
                   </div>

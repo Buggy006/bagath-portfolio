@@ -19,7 +19,7 @@ export function Experience() {
                       key={point.slice(0, 32)}
                       className="flex gap-3 text-neutral-600"
                     >
-                      <span className="mt-2.5 h-1 w-1 shrink-0 rounded-full bg-blue-600" />
+                      <span className="mt-2.5 h-1 w-1 shrink-0 rounded-full bg-accent transition-colors" />
                       {point}
                     </li>
                   ))}

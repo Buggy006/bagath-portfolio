@@ -14,7 +14,7 @@ function CardBody({ project }: { project: (typeof projects.items)[number] }) {
         {project.link && (
           <ArrowUpRight
             size={18}
-            className="shrink-0 text-neutral-300 transition-colors group-hover:text-blue-600"
+            className="shrink-0 text-neutral-300 transition-colors group-hover:text-accent"
           />
         )}
       </div>

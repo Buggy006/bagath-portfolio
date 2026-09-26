@@ -1,64 +1,72 @@
-import { ArrowDown, Github, Linkedin } from "lucide-react";
-import { site } from "@/content/site";
+"use client";
 
-const stack = ["python", "aws", "terraform", "data-eng", "devops", "gen-ai"];
+import { ArrowDown, Github, Instagram, Linkedin } from "lucide-react";
+import { personaHero, site } from "@/content/site";
+import { PersonaToggle, usePersona } from "./persona";
+
+const socialIcons = {
+  github: { Icon: Github, href: site.social.github, label: "GitHub" },
+  linkedin: { Icon: Linkedin, href: site.social.linkedin, label: "LinkedIn" },
+  instagram: { Icon: Instagram, href: site.social.instagram, label: "Instagram" },
+};
 
 export function Hero() {
+  const { persona } = usePersona();
+  const hero = personaHero[persona];
+
   return (
     <section id="top" className="flex min-h-screen flex-col justify-center">
-      <div className="mx-auto w-full max-w-content px-6 pt-16">
-        <p className="font-mono text-sm text-blue-600">
-          {site.role} · Data & Cloud
+      <div className="mx-auto w-full max-w-content px-6 pt-24">
+        <PersonaToggle />
+        <p className="mt-8 font-mono text-sm text-accent transition-colors">
+          {hero.roleLine}
         </p>
         <h1 className="mt-4 max-w-3xl text-5xl font-semibold leading-[1.05] tracking-tight sm:text-7xl">
           {site.name}
         </h1>
         <p className="mt-6 max-w-xl text-lg leading-relaxed text-neutral-600">
-          {site.tagline}
+          {hero.tagline}
         </p>
 
         <div className="mt-10 flex flex-wrap items-center gap-4">
           <a
-            href="#projects"
+            href={hero.primaryCta.href}
             className="rounded-full bg-neutral-950 px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-neutral-700"
           >
-            See my work
+            {hero.primaryCta.label}
           </a>
           <a
-            href="#contact"
+            href={hero.secondaryCta.href}
             className="rounded-full border border-neutral-300 px-6 py-3 text-sm font-medium transition-colors hover:border-neutral-950"
           >
-            Get in touch
+            {hero.secondaryCta.label}
           </a>
           <span className="mx-1 hidden h-6 w-px bg-neutral-200 sm:block" />
-          <a
-            href={site.social.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="GitHub"
-            className="text-neutral-400 transition-colors hover:text-neutral-950"
-          >
-            <Github size={20} />
-          </a>
-          <a
-            href={site.social.linkedin}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="LinkedIn"
-            className="text-neutral-400 transition-colors hover:text-neutral-950"
-          >
-            <Linkedin size={20} />
-          </a>
+          {hero.socials.map((key) => {
+            const { Icon, href, label } = socialIcons[key];
+            return (
+              <a
+                key={key}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={label}
+                className="text-neutral-400 transition-colors hover:text-neutral-950"
+              >
+                <Icon size={20} />
+              </a>
+            );
+          })}
         </div>
 
         <p className="mt-16 font-mono text-xs tracking-wider text-neutral-400">
-          {stack.join("  ·  ")}
+          {hero.strip.join("  ·  ")}
         </p>
       </div>
 
       <a
-        href="#about"
-        aria-label="Scroll to about section"
+        href={persona === "engineer" ? "#about" : "#story"}
+        aria-label="Scroll to next section"
         className="mx-auto mb-10 mt-auto animate-bounce text-neutral-300 hover:text-neutral-500"
       >
         <ArrowDown size={20} />

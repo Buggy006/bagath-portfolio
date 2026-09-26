@@ -18,7 +18,7 @@ export function Section({
     <section id={id} className={`scroll-mt-20 ${className}`}>
       <div className="mx-auto max-w-content px-6 py-24 sm:py-28">
         <Reveal>
-          <p className="font-mono text-xs uppercase tracking-[0.2em] text-blue-600">
+          <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent transition-colors">
             {eyebrow}
           </p>
           <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">

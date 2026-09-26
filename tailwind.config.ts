@@ -8,6 +8,15 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      colors: {
+        // Persona accent — CSS variables set in globals.css:
+        // engineer = blue, athlete = amber (see [data-persona="athlete"])
+        accent: {
+          DEFAULT: "rgb(var(--accent) / <alpha-value>)",
+          strong: "rgb(var(--accent-strong) / <alpha-value>)",
+          soft: "rgb(var(--accent-soft) / <alpha-value>)",
+        },
+      },
       fontFamily: {
         sans: ["var(--font-geist-sans)", "system-ui", "sans-serif"],
         mono: ["var(--font-geist-mono)", "monospace"],

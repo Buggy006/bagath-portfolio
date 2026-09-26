@@ -1,11 +1,20 @@
+"use client";
+
 import { Github, Instagram, Linkedin, Mail } from "lucide-react";
 import { Section } from "./section";
 import { Reveal } from "./reveal";
 import { contact, site } from "@/content/site";
+import { usePersona } from "./persona";
 
 export function Contact() {
+  const { persona } = usePersona();
+
   return (
-    <Section id="contact" eyebrow="05 — Reach out" heading={contact.heading}>
+    <Section
+      id="contact"
+      eyebrow={persona === "engineer" ? "05 — Reach out" : "04 — Reach out"}
+      heading={contact.heading}
+    >
       <Reveal className="max-w-xl">
         <p className="text-lg leading-relaxed text-neutral-600">{contact.body}</p>
         <div className="mt-8 flex flex-wrap items-center gap-4">

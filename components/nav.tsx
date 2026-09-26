@@ -2,20 +2,15 @@
 
 import { useEffect, useState } from "react";
 import { Menu, X } from "lucide-react";
-import { site } from "@/content/site";
-
-const links = [
-  { href: "#about", label: "About" },
-  { href: "#skills", label: "Skills" },
-  { href: "#experience", label: "Experience" },
-  { href: "#projects", label: "Projects" },
-  { href: "#fitness", label: "Fitness" },
-  { href: "#contact", label: "Contact" },
-];
+import { navLinks, site } from "@/content/site";
+import { usePersona } from "./persona";
 
 export function Nav() {
+  const { persona } = usePersona();
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+
+  const links = navLinks[persona];
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -33,7 +28,7 @@ export function Nav() {
       <nav className="mx-auto flex h-16 max-w-content items-center justify-between px-6">
         <a href="#top" className="font-mono text-sm font-semibold tracking-tight">
           {site.nickname.toLowerCase()}
-          <span className="text-blue-600">.</span>
+          <span className="text-accent transition-colors">.</span>
         </a>
 
         {/* Desktop */}
