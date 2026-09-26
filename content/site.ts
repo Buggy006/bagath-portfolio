@@ -8,8 +8,8 @@
  */
 
 export const site = {
-  // [PLACEHOLDER] your name as it should appear in the hero & browser tab
-  name: "Bagath",
+  name: "Bagath Singh",
+  nickname: "Buggy", // used for the nav wordmark
   role: "Software Engineer",
 
   // [PLACEHOLDER] one-line positioning statement (hero + meta description)
@@ -39,7 +39,7 @@ export const about = {
   // Quick facts rendered beside the paragraphs
   facts: [
     { label: "Experience", value: "X+ years" }, // [PLACEHOLDER]
-    { label: "Focus", value: "Data & Cloud Platforms" },
+    { label: "Focus", value: "Data, Cloud & Gen-AI" },
     { label: "Based in", value: "India" }, // [PLACEHOLDER]
     { label: "Open to", value: "Interesting problems" },
   ],
@@ -67,6 +67,11 @@ export const skills = {
       title: "Data Engineering",
       icon: "database" as const,
       items: ["Airflow", "ETL / ELT", "Data Lakes", "Warehousing", "Streaming"],
+    },
+    {
+      title: "Generative AI",
+      icon: "sparkles" as const,
+      items: ["LLM APIs", "RAG Pipelines", "AI Agents", "Amazon Bedrock", "Prompt Engineering"],
     },
   ],
 };

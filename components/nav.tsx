@@ -32,7 +32,7 @@ export function Nav() {
     >
       <nav className="mx-auto flex h-16 max-w-content items-center justify-between px-6">
         <a href="#top" className="font-mono text-sm font-semibold tracking-tight">
-          {site.name.toLowerCase()}
+          {site.nickname.toLowerCase()}
           <span className="text-blue-600">.</span>
         </a>
 

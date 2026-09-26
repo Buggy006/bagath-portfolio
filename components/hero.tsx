@@ -1,7 +1,7 @@
 import { ArrowDown, Github, Linkedin } from "lucide-react";
 import { site } from "@/content/site";
 
-const stack = ["python", "aws", "terraform", "data-eng", "devops"];
+const stack = ["python", "aws", "terraform", "data-eng", "devops", "gen-ai"];
 
 export function Hero() {
   return (

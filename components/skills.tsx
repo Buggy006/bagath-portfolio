@@ -1,4 +1,4 @@
-import { Cloud, Code2, Database, Layers } from "lucide-react";
+import { Cloud, Code2, Database, Layers, Sparkles } from "lucide-react";
 import { Section } from "./section";
 import { Reveal } from "./reveal";
 import { skills } from "@/content/site";
@@ -8,6 +8,7 @@ const icons = {
   cloud: Cloud,
   layers: Layers,
   database: Database,
+  sparkles: Sparkles,
 };
 
 export function Skills() {
@@ -18,7 +19,7 @@ export function Skills() {
       heading={skills.heading}
       className="bg-neutral-50"
     >
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {skills.groups.map((group, i) => {
           const Icon = icons[group.icon];
           return (
