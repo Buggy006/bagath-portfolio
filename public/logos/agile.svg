@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128">
+  <defs>
+    <linearGradient id="agile-a" x1="20" y1="20" x2="108" y2="108" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#34d399"/>
+      <stop offset="1" stop-color="#059669"/>
+    </linearGradient>
+  </defs>
+  <path d="M64 22a42 42 0 1 0 42 42" fill="none" stroke="url(#agile-a)" stroke-width="12" stroke-linecap="round"/>
+  <polygon fill="#059669" points="106,40 122,66 90,66"/>
+</svg>
