@@ -1,6 +1,6 @@
 "use client";
 
-import { Dumbbell } from "lucide-react";
+import { Construction, Dumbbell } from "lucide-react";
 import { Reveal } from "./reveal";
 import { fitness, site } from "@/content/site";
 import { PersonaSwitchButton } from "./persona";
@@ -27,6 +27,10 @@ export function Fitness() {
           <h2 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">
             {fitness.heading}
           </h2>
+          <span className="mt-5 inline-flex items-center gap-2 rounded-full border border-dashed border-amber-400 bg-white px-4 py-1.5 font-mono text-xs uppercase tracking-wider text-amber-700">
+            <Construction size={14} />
+            {fitness.construction}
+          </span>
           <p className="mt-6 text-lg leading-relaxed text-neutral-600">
             {fitness.body}
           </p>

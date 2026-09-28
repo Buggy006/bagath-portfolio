@@ -132,6 +132,7 @@ export const projects = {
 
 export const fitness = {
   label: "Beyond code",
+  construction: "Under construction",
   heading: "Engineering meets fitness",
   body: "I'm training for an athletic, strong physique the way I build software: with a system — progressive overload, tracked metrics, honest iteration. Coaching is on the way, for engineers and busy professionals who want structure instead of guesswork.",
   status: "Coaching — coming soon",
