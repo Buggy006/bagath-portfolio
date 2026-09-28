@@ -44,6 +44,18 @@ export function PersonaProvider({ children }: { children: React.ReactNode }) {
       const stored = localStorage.getItem("persona");
       if (param === "athlete" || (param !== "engineer" && stored === "athlete")) {
         commit("athlete");
+        // The anchor target may not exist until athlete sections render,
+        // so re-run the browser's hash jump after the swap.
+        const hash = window.location.hash;
+        if (hash) {
+          window.setTimeout(() => {
+            try {
+              document.querySelector(hash)?.scrollIntoView();
+            } catch {
+              /* invalid hash — ignore */
+            }
+          }, 100);
+        }
       }
     } catch {
       /* default persona stands */

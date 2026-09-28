@@ -165,6 +165,7 @@ export const personaHero = {
   },
   athlete: {
     roleLine: "Athlete · Strength & Systems",
+    badge: "Under construction",
     // [PLACEHOLDER] athlete positioning line
     tagline:
       "I'm building an athletic, strong physique with the discipline of an engineer — programmed, tracked, iterated. Coaching coming soon.",

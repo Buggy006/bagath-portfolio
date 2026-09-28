@@ -1,6 +1,6 @@
 "use client";
 
-import { ArrowDown, Github, Instagram, Linkedin } from "lucide-react";
+import { ArrowDown, Construction, Github, Instagram, Linkedin } from "lucide-react";
 import { personaHero, site } from "@/content/site";
 import { PersonaToggle, usePersona } from "./persona";
 
@@ -27,6 +27,12 @@ export function Hero() {
         <p className="mt-6 max-w-xl text-lg leading-relaxed text-neutral-600">
           {hero.tagline}
         </p>
+        {"badge" in hero && (
+          <span className="mt-6 inline-flex items-center gap-2 rounded-full border border-dashed border-accent/50 px-4 py-1.5 font-mono text-xs uppercase tracking-wider text-accent">
+            <Construction size={14} />
+            {hero.badge}
+          </span>
+        )}
 
         <div className="mt-10 flex flex-wrap items-center gap-4">
           <a
