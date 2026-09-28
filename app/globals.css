@@ -80,6 +80,32 @@
     }
   }
 
+  /* Hero mesh background: fades toward the text column; dots twinkle. */
+  .hero-bg {
+    opacity: 0.5;
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 32%,
+      black 92%,
+      transparent
+    );
+  }
+
+  .bg-dot {
+    animation: twinkle 4.5s ease-in-out infinite;
+  }
+
+  @keyframes twinkle {
+    0%,
+    100% {
+      opacity: 0.25;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+
   /* Floating hero logos: slow phase-shifted bob (see components/floaters.tsx) */
   .floater {
     transform: rotate(var(--rot));
@@ -111,6 +137,10 @@
     }
 
     .floater {
+      animation: none;
+    }
+
+    .bg-dot {
       animation: none;
     }
   }
