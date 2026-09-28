@@ -80,6 +80,21 @@
     }
   }
 
+  /* Floating hero logos: slow phase-shifted bob (see components/floaters.tsx) */
+  .floater {
+    transform: rotate(var(--rot));
+    animation: floatBob var(--dur) ease-in-out var(--delay) infinite alternate;
+  }
+
+  @keyframes floatBob {
+    from {
+      transform: translateY(-9px) rotate(var(--rot));
+    }
+    to {
+      transform: translateY(9px) rotate(var(--rot));
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .reveal {
       opacity: 1;
@@ -92,6 +107,10 @@
     }
 
     .marquee-track {
+      animation: none;
+    }
+
+    .floater {
       animation: none;
     }
   }

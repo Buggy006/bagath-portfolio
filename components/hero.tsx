@@ -4,6 +4,7 @@ import { ArrowDown, Construction, Github, Instagram, Linkedin } from "lucide-rea
 import { personaHero, site } from "@/content/site";
 import { PersonaToggle, usePersona } from "./persona";
 import { Marquee } from "./marquee";
+import { Floaters } from "./floaters";
 
 const socialIcons = {
   github: { Icon: Github, href: site.social.github, label: "GitHub" },
@@ -16,8 +17,9 @@ export function Hero() {
   const hero = personaHero[persona];
 
   return (
-    <section id="top" className="flex min-h-screen flex-col justify-center">
-      <div className="mx-auto w-full max-w-content px-6 pt-24">
+    <section id="top" className="relative flex min-h-screen flex-col justify-center">
+      <Floaters persona={persona} />
+      <div className="relative z-10 mx-auto w-full max-w-content px-6 pt-24">
         <PersonaToggle />
         <p className="mt-8 font-mono text-sm text-accent transition-colors">
           {hero.roleLine}
@@ -66,7 +68,7 @@ export function Hero() {
           })}
         </div>
 
-        <div className="mt-16">
+        <div className="mt-16 lg:hidden">
           <Marquee items={hero.marquee} />
         </div>
       </div>
