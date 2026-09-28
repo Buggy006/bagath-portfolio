@@ -1,12 +1,10 @@
 import Image from "next/image";
 import {
   Apple,
-  Bot,
   Dumbbell,
   Flame,
   HeartPulse,
   Moon,
-  Sparkles,
   Timer,
   Trophy,
   type LucideIcon,
@@ -37,13 +35,13 @@ const floaters: Record<Persona, Floater[]> = {
   engineer: [
     // Python is the anchor element — largest, mid-cluster
     { img: { src: "/logos/python.svg", alt: "Python" }, size: 88, top: "24%", left: "77%", dur: "7s", delay: "0s", rot: "-6deg" },
-    { img: { src: "/logos/aws.svg", alt: "AWS" }, size: 76, top: "9%", left: "60%", dur: "8s", delay: "1.2s", rot: "5deg" },
-    { img: { src: "/logos/terraform.svg", alt: "Terraform" }, size: 44, top: "14%", left: "90%", dur: "6.4s", delay: "0.7s", rot: "-12deg" },
+    { img: { src: "/logos/aws.svg", alt: "AWS" }, size: 76, top: "12%", left: "60%", dur: "8s", delay: "1.2s", rot: "5deg" },
+    { img: { src: "/logos/terraform.svg", alt: "Terraform" }, size: 44, top: "15%", left: "87%", dur: "6.4s", delay: "0.7s", rot: "-12deg" },
     { img: { src: "/logos/git.svg", alt: "Git" }, size: 46, top: "52%", left: "91%", dur: "6.8s", delay: "0.3s", rot: "10deg" },
     { img: { src: "/logos/docker.svg", alt: "Docker" }, size: 56, top: "64%", left: "61%", dur: "7.4s", delay: "1.8s", rot: "-8deg" },
-    { img: { src: "/logos/spark.svg", alt: "Apache Spark" }, size: 46, top: "80%", left: "83%", dur: "8.4s", delay: "2.2s", rot: "8deg" },
-    { lucide: Sparkles, color: "#8B5CF6", size: 40, top: "40%", left: "57%", dur: "8.8s", delay: "0.5s", rot: "-10deg" },
-    { lucide: Bot, color: "#DB2777", size: 50, top: "83%", left: "68%", dur: "6.2s", delay: "1.5s", rot: "6deg" },
+    { img: { src: "/logos/genai.svg", alt: "Generative AI" }, size: 54, top: "40%", left: "57%", dur: "8.8s", delay: "0.5s", rot: "-8deg" },
+    { img: { src: "/logos/data.svg", alt: "Data" }, size: 48, top: "78%", left: "70%", dur: "7.8s", delay: "1.4s", rot: "6deg" },
+    { img: { src: "/logos/datalake.svg", alt: "Data Lake" }, size: 48, top: "80%", left: "85%", dur: "6.2s", delay: "2.1s", rot: "-6deg" },
   ],
   athlete: [
     { lucide: Dumbbell, color: "#B45309", size: 88, top: "22%", left: "74%", dur: "7s", delay: "0s", rot: "-10deg" },
