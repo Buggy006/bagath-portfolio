@@ -6,6 +6,7 @@ import { PersonaToggle, usePersona } from "./persona";
 import { Marquee } from "./marquee";
 import { Floaters } from "./floaters";
 import { HeroBackground } from "./hero-bg";
+import { Portrait } from "./portrait";
 
 const socialIcons = {
   github: { Icon: Github, href: site.social.github, label: "GitHub" },
@@ -21,6 +22,7 @@ export function Hero() {
     <section id="top" className="relative flex min-h-screen flex-col justify-center">
       <HeroBackground persona={persona} />
       <Floaters persona={persona} />
+      <Portrait />
       <div className="relative z-10 mx-auto w-full max-w-content px-6 pt-24">
         <PersonaToggle />
         <p className="mt-8 font-mono text-sm text-accent transition-colors">
