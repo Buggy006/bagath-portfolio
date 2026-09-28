@@ -44,8 +44,7 @@ const floaters: Record<Persona, Floater[]> = {
     { img: { src: "/logos/lambda.svg", alt: "AWS Lambda" }, size: 50, top: "58%", left: "72%", dur: "7.2s", delay: "1.0s", rot: "7deg" },
     { img: { src: "/logos/docker.svg", alt: "Docker" }, size: 56, top: "64%", left: "61%", dur: "7.4s", delay: "1.8s", rot: "-8deg" },
     { img: { src: "/logos/glue.svg", alt: "AWS Glue" }, size: 46, top: "78%", left: "68%", dur: "7.8s", delay: "1.4s", rot: "6deg" },
-    { img: { src: "/logos/datalake.svg", alt: "Data Lake" }, size: 48, top: "80%", left: "85%", dur: "6.2s", delay: "2.1s", rot: "-6deg" },
-    { img: { src: "/logos/devops.svg", alt: "DevOps" }, size: 60, top: "87%", left: "76%", dur: "8.2s", delay: "0.9s", rot: "5deg" },
+    { img: { src: "/logos/devops.svg", alt: "DevOps" }, size: 60, top: "84%", left: "82%", dur: "8.2s", delay: "0.9s", rot: "5deg" },
   ],
   athlete: [
     { lucide: Dumbbell, color: "#B45309", size: 88, top: "22%", left: "74%", dur: "7s", delay: "0s", rot: "-10deg" },
