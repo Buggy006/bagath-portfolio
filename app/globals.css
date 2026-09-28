@@ -55,6 +55,31 @@
     opacity: 0;
   }
 
+  /* Infinite icon ticker (see components/marquee.tsx) */
+  .marquee {
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 8%,
+      black 92%,
+      transparent
+    );
+  }
+
+  .marquee-track {
+    animation: marquee 30s linear infinite;
+  }
+
+  .marquee:hover .marquee-track {
+    animation-play-state: paused;
+  }
+
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .reveal {
       opacity: 1;
@@ -64,6 +89,10 @@
 
     .persona-swap {
       transition: none;
+    }
+
+    .marquee-track {
+      animation: none;
     }
   }
 }

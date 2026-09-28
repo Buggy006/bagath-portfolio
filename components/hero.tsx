@@ -3,6 +3,7 @@
 import { ArrowDown, Construction, Github, Instagram, Linkedin } from "lucide-react";
 import { personaHero, site } from "@/content/site";
 import { PersonaToggle, usePersona } from "./persona";
+import { Marquee } from "./marquee";
 
 const socialIcons = {
   github: { Icon: Github, href: site.social.github, label: "GitHub" },
@@ -65,9 +66,9 @@ export function Hero() {
           })}
         </div>
 
-        <p className="mt-16 font-mono text-xs tracking-wider text-neutral-400">
-          {hero.strip.join("  ·  ")}
-        </p>
+        <div className="mt-16">
+          <Marquee items={hero.marquee} />
+        </div>
       </div>
 
       <a

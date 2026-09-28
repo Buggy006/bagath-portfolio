@@ -158,7 +158,16 @@ export const personaHero = {
   engineer: {
     roleLine: "Software Engineer · Data & Cloud",
     tagline: site.tagline,
-    strip: ["python", "aws", "terraform", "data-eng", "devops", "gen-ai"],
+    marquee: [
+      { label: "AWS", icon: "aws" },
+      { label: "Python", icon: "python" },
+      { label: "Terraform", icon: "terraform" },
+      { label: "Data Engineering", icon: "dataeng" },
+      { label: "DevOps", icon: "devops" },
+      { label: "Git", icon: "git" },
+      { label: "Gen AI", icon: "genai" },
+      { label: "Agentic AI", icon: "agentic" },
+    ],
     primaryCta: { label: "See my work", href: "#projects" },
     secondaryCta: { label: "Get in touch", href: "#contact" },
     socials: ["github", "linkedin"] as const,
@@ -169,7 +178,15 @@ export const personaHero = {
     // [PLACEHOLDER] athlete positioning line
     tagline:
       "I'm building an athletic, strong physique with the discipline of an engineer — programmed, tracked, iterated. Coaching coming soon.",
-    strip: ["strength", "conditioning", "nutrition", "recovery", "consistency"],
+    marquee: [
+      { label: "Strength", icon: "strength" },
+      { label: "Conditioning", icon: "conditioning" },
+      { label: "Nutrition", icon: "nutrition" },
+      { label: "Recovery", icon: "recovery" },
+      { label: "Discipline", icon: "discipline" },
+      { label: "Consistency", icon: "consistency" },
+      { label: "Progress", icon: "progress" },
+    ],
     primaryCta: { label: "See the system", href: "#system" },
     secondaryCta: { label: "Join the waitlist", href: "#coaching" },
     socials: ["instagram", "linkedin"] as const,
