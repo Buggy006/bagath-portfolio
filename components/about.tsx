@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { Section } from "./section";
 import { Reveal } from "./reveal";
 import { about } from "@/content/site";
@@ -12,6 +13,13 @@ export function About() {
           ))}
         </Reveal>
         <Reveal delay={100}>
+          <Image
+            src="/images/about.jpg"
+            alt="Bagath Singh"
+            width={560}
+            height={700}
+            className="mb-10 w-full rounded-2xl object-cover"
+          />
           <dl className="grid grid-cols-2 gap-x-6 gap-y-8 lg:grid-cols-1">
             {about.facts.map((fact) => (
               <div key={fact.label} className="border-t border-neutral-200 pt-3">
