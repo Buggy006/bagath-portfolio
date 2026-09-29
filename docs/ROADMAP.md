@@ -56,10 +56,20 @@ CloudWatch alarms. (Chat-related assertions dropped from #13's scope.)
 - E6-S2 Case study: This Website (architecture diagram, decisions, pipeline)
 - E6-S3 Case studies: Serverless Infrastructure Setup + Enterprise Analytics Platform (sanitized)
 
+### E8 — Live GitHub activity card (Sprint 3) — NEW (decided 2026-09-30)
+- E8-S1 Client-side card on the engineer page: latest public repos/commits
+  from the GitHub API ("what I'm building now"), cached in sessionStorage,
+  graceful when rate-limited. No backend, no cost.
+
 ### E7 — Design polish pass (Sprint 4) — NEW
 - E7-S1 Motion & micro-interactions: staggered reveals, hover/press states, section transitions (reduced-motion respected)
 - E7-S2 Typography, spacing & visual QA sweep across personas, breakpoints, and case-study pages
 
 ## v1.1 backlog (not December)
-Custom domain + ACM · blog/notes section · dark mode · product
-analytics · photo/gallery treatment · fitness agent (separate product).
+Contact form backend (POST /contact → SES) · visitor counter ·
+testimonials section · custom domain + ACM · blog/notes · dark mode ·
+product analytics · photo/gallery treatment · fitness agent (separate
+product).
+
+> Feature-cut decision 2026-09-30: of the candidate v1 additions, only
+> the GitHub activity card made the cut; everything else above waits.
