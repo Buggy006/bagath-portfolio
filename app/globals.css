@@ -96,6 +96,28 @@
     animation: twinkle 4.5s ease-in-out infinite;
   }
 
+  /* Terminal card: staggered line reveal + blinking caret */
+  .terminal-line {
+    opacity: 0;
+    animation: lineIn 0.4s ease-out forwards;
+  }
+
+  @keyframes lineIn {
+    to {
+      opacity: 1;
+    }
+  }
+
+  .terminal-caret {
+    animation: caretBlink 1.1s steps(1) infinite;
+  }
+
+  @keyframes caretBlink {
+    50% {
+      opacity: 0;
+    }
+  }
+
   @keyframes twinkle {
     0%,
     100% {
@@ -141,6 +163,15 @@
     }
 
     .bg-dot {
+      animation: none;
+    }
+
+    .terminal-line {
+      opacity: 1;
+      animation: none;
+    }
+
+    .terminal-caret {
       animation: none;
     }
   }
