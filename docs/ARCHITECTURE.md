@@ -20,11 +20,7 @@ through the same pipeline.
  │  Visitor ── CloudFront ──▶ S3 (static Next.js export)              │
  │      │        (OAC, edge URL rewrite, HTTPS)                       │
  │      │                                                             │
- │      └──── API Gateway (HTTP API, throttled, CORS-locked)          │
- │              └── POST /waitlist ──▶ Lambda ──▶ DynamoDB `waitlist` │
- │                                       └──▶ SES (notify Bagath)     │
- │                                                                    │
- │  CloudWatch: alarms on 5xx / Lambda errors                         │
+ │  CloudWatch: alarms per E4 (CloudFront metrics)                    │
  └────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -42,15 +38,10 @@ Private S3 + CloudFront with OAC and a CloudFront Function rewriting
 directory URLs. v1 launches on the `*.cloudfront.net` URL; custom domain
 is a v1.1 story (aliases + ACM variables already supported in the module).
 
-### Waitlist service (new)
-- **API**: API Gateway HTTP API, `POST /waitlist`, CORS locked to the
-  site origin, throttling (burst 5 / rate 2 rps).
-- **Lambda** (Python 3.12): validate email, honeypot field check,
-  idempotent put.
-- **DynamoDB** `waitlist`: pk = email, attrs: name, source persona,
-  created_at. On-demand billing.
-- **SES**: notification email to Bagath per signup (identity must be
-  verified once — user task).
+### Waitlist service — removed from v1 (2026-09-30)
+Coaching launches ~3 months out; v1 keeps the mailto CTA. The complete
+implementation is preserved at commit `facedc5` for the fitness
+product (docs/FITNESS_AGENT.md). v1 is a fully static site.
 
 ### AI agent — moved out (2026-09-28)
 The fitness chat agent is a separate future product with its own repo

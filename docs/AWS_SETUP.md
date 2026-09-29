@@ -29,34 +29,17 @@ IAM → Users → Create user `portfolio-deployer` → Attach policies directly
       "Resource": "*"
     },
     {
-      "Sid": "WaitlistService",
+      "Sid": "EdgeFunction",
       "Effect": "Allow",
-      "Action": [
-        "dynamodb:*",
-        "lambda:*",
-        "apigateway:*",
-        "ses:*",
-        "logs:*"
-      ],
+      "Action": ["cloudfront:*"],
       "Resource": "*"
-    },
-    {
-      "Sid": "IamForLambdaRole",
-      "Effect": "Allow",
-      "Action": [
-        "iam:CreateRole", "iam:DeleteRole", "iam:GetRole",
-        "iam:PutRolePolicy", "iam:DeleteRolePolicy", "iam:GetRolePolicy",
-        "iam:PassRole", "iam:TagRole", "iam:ListRolePolicies",
-        "iam:ListAttachedRolePolicies", "iam:ListInstanceProfilesForRole"
-      ],
-      "Resource": "arn:aws:iam::*:role/bagath-portfolio-*"
     }
   ]
 }
 ```
 
-Name it `portfolio-deploy-policy`. (We tighten CloudFront/API `*` scopes
-after first apply if you want — creation needs broad list/create.)
+Name it `portfolio-deploy-policy`. v1 is fully static — only S3 and
+CloudFront are needed.
 
 ## 3. Access keys
 The new user → Security credentials → Create access key →

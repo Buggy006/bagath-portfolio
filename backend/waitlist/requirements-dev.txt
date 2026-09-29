@@ -1,3 +1,0 @@
-boto3==1.40.*
-moto[dynamodb,ses]==5.*
-pytest==8.*

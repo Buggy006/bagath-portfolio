@@ -42,10 +42,3 @@ content/      site.ts — single source of truth for all copy
 infra/        Terraform: S3 + CloudFront + OAC
 .github/      Build & deploy workflow
 ```
-
-## Backend (waitlist)
-
-`backend/waitlist/` — Python Lambda with tests (`python -m pytest backend/waitlist`).
-Provisioned by `infra/waitlist.tf` (DynamoDB + HTTP API + SES). After
-`terraform apply`, set `NEXT_PUBLIC_API_BASE_URL` to the `waitlist_api_url`
-output at build time; without it the form falls back to a mailto button.

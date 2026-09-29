@@ -44,6 +44,14 @@ the front door of the coaching business (intake, programming Q&A).
   badge → waitlist signups (kept in the portfolio) are the launch audience
 - When the agent ships, the portfolio links out to it (own domain/subdomain)
 
+## Ready-made waitlist implementation
+Removed from the portfolio 2026-09-30 (coaching ~3 months out), but
+fully built and tested at portfolio commit `facedc5`: Python Lambda
+(validation, honeypot, idempotent DynamoDB writes, SES notify) with a
+7-test pytest+moto suite, Terraform (DynamoDB + HTTP API + throttling
++ CORS), and a React form with graceful fallback. Cherry-pick or copy
+from that commit when this product starts.
+
 ## Kickoff checklist for the future session
 1. New repo (name TBD: e.g. `buggy-fit`)
 2. Re-run D2 with current model pricing

@@ -25,7 +25,7 @@ one PR with green CI. Master is always releasable.
 |---|---|---|
 | S0 Kickoff | Sep 29 – Oct 3 | Baseline on master; AWS account + secrets ready 👤 |
 | S1 Foundation | Oct 6 – Oct 17 | Site live on CloudFront URL via CI |
-| S2 Waitlist | Oct 20 – Oct 31 | Real signups landing in DynamoDB + email notify |
+| S2 (freed) | Oct 20 – Oct 31 | Case studies start early / buffer |
 | S3 Case studies | Nov 3 – Nov 14 | /projects/* pages live with real write-ups |
 | S4 Polish & rails | Nov 17 – Nov 28 | Design polish; tests, Lighthouse, alarms; final content 👤 |
 | Hardening | Dec 1 – Dec 12 | Bug bash, polish, launch checklist |
@@ -37,9 +37,11 @@ one PR with green CI. Master is always releasable.
 Unchanged: baseline merge · 👤 AWS setup · remote state · apply infra ·
 CI auto-deploy.
 
-### E2 — Fitness waitlist (Sprint 2) — issues #6–8
-Unchanged: API GW + Lambda + DynamoDB + SES · form UI · notifications
-+ 👤 SES verify. This is the coaching lead-gen and stays in the portfolio.
+### ~~E2 — Fitness waitlist~~ → removed from v1 (2026-09-30)
+Coaching is ~3 months out; the mailto CTA stays for v1. The finished
+implementation (Lambda + tests + Terraform + form) is preserved at
+commit `facedc5` and earmarked for the fitness product — see
+docs/FITNESS_AGENT.md. Issues #6–8 closed.
 
 ### ~~E3 — AI agent~~ → moved to the fitness product
 Issues #9–12 closed as not-planned here. See `docs/FITNESS_AGENT.md`.
