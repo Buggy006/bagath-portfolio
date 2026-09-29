@@ -1,12 +1,9 @@
 import { Section } from "./section";
 import { Reveal } from "./reveal";
-import { coaching, site } from "@/content/site";
+import { coaching } from "@/content/site";
+import { WaitlistForm } from "./waitlist-form";
 
 export function Coaching() {
-  const mailto = `mailto:${site.email}?subject=${encodeURIComponent(
-    coaching.cta.subject
-  )}`;
-
   return (
     <Section id="coaching" eyebrow="03 — Coaching" heading={coaching.heading}>
       <Reveal className="max-w-2xl">
@@ -28,12 +25,7 @@ export function Coaching() {
         <span className="rounded-full border border-neutral-200 bg-white px-4 py-1.5 font-mono text-xs text-accent transition-colors">
           {coaching.status}
         </span>
-        <a
-          href={mailto}
-          className="rounded-full bg-accent px-6 py-3 text-sm font-medium text-white transition-colors hover:bg-accent-strong"
-        >
-          {coaching.cta.text}
-        </a>
+<WaitlistForm variant="accent" />
       </Reveal>
     </Section>
   );

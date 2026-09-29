@@ -2,7 +2,8 @@
 
 import { Construction, Dumbbell } from "lucide-react";
 import { Reveal } from "./reveal";
-import { fitness, site } from "@/content/site";
+import { fitness } from "@/content/site";
+import { WaitlistForm } from "./waitlist-form";
 import { PersonaSwitchButton } from "./persona";
 
 /**
@@ -10,10 +11,6 @@ import { PersonaSwitchButton } from "./persona";
  * with a jump into full athlete mode.
  */
 export function Fitness() {
-  const mailto = `mailto:${site.email}?subject=${encodeURIComponent(
-    fitness.cta.subject
-  )}`;
-
   return (
     <section id="fitness" className="scroll-mt-20 bg-amber-50">
       <div className="mx-auto max-w-content px-6 py-24 sm:py-28">
@@ -41,12 +38,7 @@ export function Fitness() {
             >
               Explore athlete mode →
             </PersonaSwitchButton>
-            <a
-              href={mailto}
-              className="rounded-full border border-amber-200 bg-white px-6 py-3 text-sm font-medium text-amber-800 transition-colors hover:border-amber-400"
-            >
-              {fitness.cta.text}
-            </a>
+<WaitlistForm variant="amber" />
           </div>
         </Reveal>
       </div>
