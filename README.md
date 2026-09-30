@@ -1,36 +1,44 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Bagath — Portfolio
 
-## Getting Started
+Personal branding site: software engineering (Python · AWS · Terraform ·
+Data Engineering · DevOps) with a fitness/coaching section that will grow
+into its own thing.
 
-First, run the development server:
+**Stack:** Next.js 15 (static export) · Tailwind CSS · TypeScript
+**Hosting:** S3 + CloudFront, provisioned with Terraform (see [`infra/`](infra/))
+**CI/CD:** GitHub Actions — builds on every push, deploys `master` to AWS
+
+## Persona switch
+
+The hero toggle flips the whole site between the **engineer** profile
+(blue) and the **athlete** profile (amber) — different sections, accent
+color, nav, and CTAs. The choice is remembered per visitor and shareable
+via URL: link `/?p=athlete` from Instagram, the plain URL from LinkedIn.
+
+## Editing content
+
+Everything shown on the site lives in **[`content/site.ts`](content/site.ts)**.
+Replace the values marked `[PLACEHOLDER]` — no other file needs touching.
+
+## Local development
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev       # http://localhost:3000
+npm run build     # static export to ./out
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Deploying
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+One-time infrastructure setup and the CI secrets it needs:
+[`infra/README.md`](infra/README.md).
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Structure
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+app/          Layout, global styles, page composition
+components/   One component per section (hero, skills, fitness, …)
+content/      site.ts — single source of truth for all copy
+infra/        Terraform: S3 + CloudFront + OAC
+.github/      Build & deploy workflow
+```

@@ -2,8 +2,215 @@
 @tailwind components;
 @tailwind utilities;
 
-.bg-pattern {
-  background-color: #000000;
-  background-image: radial-gradient(#ffffff 0.5px, transparent 0.5px);
-  background-size: 10px 10px;
+@layer base {
+  /* Persona accent tokens (RGB triplets for Tailwind alpha support).
+     Engineer (default): blue-600 / blue-700 / blue-100
+     Athlete:            amber-700 / amber-800 / amber-100 */
+  :root {
+    --accent: 37 99 235;
+    --accent-strong: 29 78 216;
+    --accent-soft: 219 234 254;
+  }
+
+  :root[data-persona="athlete"] {
+    --accent: 180 83 9;
+    --accent-strong: 146 64 14;
+    --accent-soft: 254 243 199;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    @apply bg-white text-neutral-900;
+  }
+
+  ::selection {
+    background: rgb(var(--accent-soft));
+  }
+}
+
+@layer utilities {
+  /* Scroll-reveal: elements start hidden, .revealed fades them up.
+     The Reveal component adds the class via IntersectionObserver. */
+  .reveal {
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+
+  .reveal.revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Persona switch: content briefly fades out while sections swap. */
+  .persona-swap {
+    transition: opacity 0.2s ease;
+  }
+
+  .persona-swap.switching {
+    opacity: 0;
+  }
+
+  /* Infinite icon ticker (see components/marquee.tsx) */
+  .marquee {
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 8%,
+      black 92%,
+      transparent
+    );
+  }
+
+  .marquee-track {
+    animation: marquee 30s linear infinite;
+  }
+
+  .marquee:hover .marquee-track {
+    animation-play-state: paused;
+  }
+
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  /* Hero mesh background: fades toward the text column; dots twinkle. */
+  .hero-bg {
+    opacity: 0.5;
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 32%,
+      black 92%,
+      transparent
+    );
+  }
+
+  .bg-dot {
+    animation: twinkle 4.5s ease-in-out infinite;
+  }
+
+  /* Status card: steps check off along a filling progress line */
+  .pipe-swap {
+    animation: pipeFade 0.5s ease-out;
+  }
+
+  @keyframes pipeFade {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .live-dot {
+    animation: livePulse 1.6s ease-in-out infinite;
+  }
+
+  @keyframes livePulse {
+    0%,
+    100% {
+      opacity: 0.35;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+
+  .step-row {
+    opacity: 0.4;
+    animation: stepOn 0.3s ease-out var(--sd) forwards;
+  }
+
+  .step-dot {
+    color: transparent;
+    animation: dotDone 0.3s ease-out var(--sd) forwards;
+  }
+
+  @keyframes stepOn {
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes dotDone {
+    to {
+      background: rgb(var(--accent));
+      border-color: rgb(var(--accent));
+      color: white;
+    }
+  }
+
+  .step-fill {
+    transform: scaleY(0);
+    transform-origin: top;
+    animation: lineFill 2.9s linear 0.4s forwards;
+  }
+
+  @keyframes lineFill {
+    to {
+      transform: scaleY(1);
+    }
+  }
+
+  .step-status {
+    opacity: 0;
+    animation: stepOn 0.4s ease-out 3.9s forwards;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+
+    .persona-swap {
+      transition: none;
+    }
+
+    .marquee-track {
+      animation: none;
+    }
+
+    .floater {
+      animation: none;
+    }
+
+    .bg-dot {
+      animation: none;
+    }
+
+    .pipe-swap,
+    .live-dot,
+    .step-fill {
+      animation: none;
+    }
+
+    .step-row,
+    .step-status {
+      opacity: 1;
+      animation: none;
+    }
+
+    .step-dot {
+      background: rgb(var(--accent));
+      border-color: rgb(var(--accent));
+      color: white;
+      animation: none;
+    }
+
+    .step-fill {
+      transform: none;
+    }
+  }
 }
