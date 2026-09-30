@@ -96,30 +96,34 @@
     animation: twinkle 4.5s ease-in-out infinite;
   }
 
-  /* Badge card: periodic glare sweep across the pass */
-  .badge-glare::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      105deg,
-      transparent 40%,
-      rgba(255, 255, 255, 0.16) 46%,
-      rgba(255, 255, 255, 0.04) 52%,
-      transparent 58%
-    );
-    transform: translateX(-130%);
-    animation: glareSweep 5.5s ease-in-out 1s infinite;
+  /* Pipeline diagram: marching-dash connectors + sequential node glow */
+  .pipe-line {
+    animation: dashFlow 1.1s linear infinite;
   }
 
-  @keyframes glareSweep {
-    0%,
-    55% {
-      transform: translateX(-130%);
+  @keyframes dashFlow {
+    to {
+      stroke-dashoffset: -14;
     }
-    85%,
+  }
+
+  .pipe-node {
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    animation: nodeGlow 3.8s ease-in-out var(--nd) infinite;
+  }
+
+  @keyframes nodeGlow {
+    0%,
+    24%,
     100% {
-      transform: translateX(130%);
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+      border-color: rgb(229 229 229);
+    }
+    12% {
+      box-shadow:
+        0 0 0 3px rgb(var(--accent) / 0.15),
+        0 10px 24px -8px rgb(var(--accent) / 0.5);
+      border-color: rgb(var(--accent) / 0.45);
     }
   }
 
@@ -171,7 +175,11 @@
       animation: none;
     }
 
-    .badge-glare::after {
+    .pipe-line {
+      animation: none;
+    }
+
+    .pipe-node {
       animation: none;
     }
   }
