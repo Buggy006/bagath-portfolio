@@ -187,8 +187,8 @@ export const personaHero = {
       { label: "Consistency", icon: "consistency" },
       { label: "Progress", icon: "progress" },
     ],
-    primaryCta: { label: "See the system", href: "#system" },
-    secondaryCta: { label: "Join the waitlist", href: "#coaching" },
+    primaryCta: { label: "What's coming", href: "#overview" },
+    secondaryCta: { label: "Get in touch", href: "#contact" },
     socials: ["instagram", "linkedin"] as const,
   },
 };
@@ -203,10 +203,7 @@ export const navLinks = {
     { href: "#contact", label: "Contact" },
   ],
   athlete: [
-    { href: "#story", label: "Story" },
-    { href: "#system", label: "System" },
-    { href: "#coaching", label: "Coaching" },
-    { href: "#engineering", label: "Engineering" },
+    { href: "#overview", label: "Overview" },
     { href: "#contact", label: "Contact" },
   ],
 };
@@ -283,4 +280,15 @@ export const engineerTeaser = {
   heading: "I also build data platforms",
   body: "By day I'm a software engineer at BMW TechWorks India — Python, AWS, Terraform, and pipelines that don't wake anyone up at night.",
   cta: "See the engineering side",
+};
+
+export const fitnessSummary = {
+  heading: "Fitness, the engineered way",
+  body: "I train for an athletic, strong physique with the same discipline I bring to production systems: a program, a log, and honest iteration \u2014 no guesswork. The full training system and a coaching platform are being built right now.",
+  panelTitle: "Training system & coaching \u2014 launching soon",
+  panelBody: "Programming, nutrition frameworks, and weekly accountability for engineers and busy professionals. Want in early?",
+  cta: {
+    text: "Join the waitlist",
+    subject: "Fitness coaching waitlist",
+  },
 };

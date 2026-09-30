@@ -8,10 +8,7 @@ import { Skills } from "./skills";
 import { Experience } from "./experience";
 import { Projects } from "./projects";
 import { Fitness } from "./fitness";
-import { AthleteStory } from "./athlete-story";
-import { TrainingSystem } from "./training-system";
-import { Coaching } from "./coaching";
-import { EngineerTeaser } from "./engineer-teaser";
+import { FitnessSummary } from "./fitness-summary";
 import { Contact } from "./contact";
 import { Footer } from "./footer";
 
@@ -31,12 +28,7 @@ function Sections() {
             <Fitness />
           </>
         ) : (
-          <>
-            <AthleteStory />
-            <TrainingSystem />
-            <Coaching />
-            <EngineerTeaser />
-          </>
+<FitnessSummary />
         )}
         <Contact />
       </main>

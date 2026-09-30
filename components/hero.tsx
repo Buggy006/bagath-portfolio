@@ -78,7 +78,7 @@ export function Hero() {
       </div>
 
       <a
-        href={persona === "engineer" ? "#about" : "#story"}
+        href={persona === "engineer" ? "#about" : "#overview"}
         aria-label="Scroll to next section"
         className="mx-auto mb-10 mt-auto animate-bounce text-neutral-300 hover:text-neutral-500"
       >

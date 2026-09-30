@@ -12,7 +12,7 @@ export function Contact() {
   return (
     <Section
       id="contact"
-      eyebrow={persona === "engineer" ? "05 — Reach out" : "04 — Reach out"}
+      eyebrow={persona === "engineer" ? "05 — Reach out" : "02 — Reach out"}
       heading={contact.heading}
     >
       <Reveal className="max-w-xl">
