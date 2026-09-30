@@ -1,83 +1,58 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import {
-  Apple,
-  BarChart3,
-  Database,
-  Dumbbell,
-  GitBranch,
-  Hammer,
-  Layers,
-  Moon,
-  RefreshCw,
-  Rocket,
-  Workflow,
-  Zap,
-  type LucideIcon,
-} from "lucide-react";
+import { Check } from "lucide-react";
 import { usePersona } from "./persona";
 
 /**
- * Floating pipeline diagram, bottom-left of the hero — a zigzag flow
- * whose connectors carry a marching-dash current while nodes glow in
- * sequence. Engineer mode rotates between the DevOps and data
- * pipelines; athlete mode shows the training loop (with a return edge
- * closing the cycle). Desktop only, decorative.
+ * Floating status card, bottom-left of the hero — a minimal stepper
+ * where each stage checks off in sequence along a filling progress
+ * line, then the run summary appears. Engineer mode rotates between
+ * the CI/CD and data-pipeline runs; athlete mode shows the training
+ * week. Desktop only, decorative.
  */
 
-type Node = { icon: LucideIcon; label: string; top: number; left: number };
-type Flow = { caption: string; status: string; loop: boolean; nodes: Node[] };
+type Step = { label: string; meta: string };
+type Flow = { caption: string; status: string; steps: Step[] };
 
 const flows: Record<string, Flow[]> = {
   engineer: [
     {
-      caption: "// devops pipeline",
-      status: "✓ shipped to prod",
-      loop: false,
-      nodes: [
-        { icon: GitBranch, label: "Commit · git push", top: 0, left: 0 },
-        { icon: Hammer, label: "Build · CI green", top: 84, left: 130 },
-        { icon: Layers, label: "Terraform · apply", top: 168, left: 0 },
-        { icon: Rocket, label: "Deploy · live", top: 252, left: 130 },
+      caption: "ci/cd — portfolio deploy",
+      status: "Deployed to prod · 34s",
+      steps: [
+        { label: "Commit · git push", meta: "2s" },
+        { label: "Build · tests green", meta: "18s" },
+        { label: "Terraform · apply", meta: "9s" },
+        { label: "Deploy · CloudFront", meta: "5s" },
       ],
     },
     {
-      caption: "// data pipeline",
-      status: "✓ pipeline healthy",
-      loop: false,
-      nodes: [
-        { icon: Database, label: "S3 · raw data", top: 0, left: 0 },
-        { icon: Workflow, label: "Glue · transform", top: 84, left: 130 },
-        { icon: Zap, label: "Lambda · process", top: 168, left: 0 },
-        { icon: BarChart3, label: "Metrics · shipped", top: 252, left: 130 },
+      caption: "etl — daily metrics run",
+      status: "Pipeline healthy · 5 metrics",
+      steps: [
+        { label: "S3 · ingest raw data", meta: "1.2 GB" },
+        { label: "Glue · transform", meta: "41s" },
+        { label: "Lambda · process", meta: "12s" },
+        { label: "Publish · dashboards", meta: "ok" },
       ],
     },
   ],
   athlete: [
     {
-      caption: "// training loop",
-      status: "✓ 6-week streak",
-      loop: true,
-      nodes: [
-        { icon: Dumbbell, label: "Train · push day", top: 0, left: 0 },
-        { icon: Apple, label: "Fuel · on target", top: 84, left: 130 },
-        { icon: Moon, label: "Sleep · 8 hours", top: 168, left: 0 },
-        { icon: RefreshCw, label: "Repeat · no misses", top: 252, left: 130 },
+      caption: "training — week 6",
+      status: "Streak intact · no misses",
+      steps: [
+        { label: "Train · push day", meta: "5×5" },
+        { label: "Fuel · on target", meta: "2.8k kcal" },
+        { label: "Sleep · recovery", meta: "8 h" },
+        { label: "Repeat · next block", meta: "wk 7" },
       ],
     },
   ],
 };
 
-const ROTATE_MS = 7500;
-
-// Connector curves between node centers (SVG sits behind the chips).
-const EDGES = [
-  "M 80 22 C 170 30, 200 60, 210 104",
-  "M 210 106 C 130 120, 100 150, 80 188",
-  "M 80 190 C 170 200, 200 230, 210 272",
-];
-const LOOP_EDGE = "M 268 272 C 320 200, 320 90, 105 14";
+const ROTATE_MS = 8000;
 
 export function PipelineCard() {
   const { persona } = usePersona();
@@ -95,7 +70,7 @@ export function PipelineCard() {
   const flow = list[idx] ?? list[0];
 
   const style = {
-    top: "57%",
+    top: "58%",
     left: "4.5%",
     "--dur": "8.6s",
     "--delay": "0.4s",
@@ -104,72 +79,58 @@ export function PipelineCard() {
 
   return (
     <div aria-hidden className="pointer-events-none absolute inset-0 hidden lg:block">
-      <div className="floater absolute w-[330px]" style={style}>
-        <div key={`${persona}-${flow.caption}`} className="pipe-swap">
-          <div className="mb-3 flex items-center justify-between">
-            <p className="font-mono text-[11px] tracking-wider text-neutral-400">
-              {flow.caption}
-            </p>
+      <div className="floater absolute w-[300px]" style={style}>
+        <div
+          key={`${persona}-${flow.caption}`}
+          className="pipe-swap rounded-2xl border border-neutral-200/80 bg-white/85 px-6 py-5 shadow-[0_24px_50px_-24px_rgb(var(--accent)/0.4)] backdrop-blur"
+        >
+          {/* Header */}
+          <div className="flex items-center justify-between">
+            <span className="flex items-center gap-2">
+              <span className="live-dot h-1.5 w-1.5 rounded-full bg-accent" />
+              <span className="font-mono text-[11px] tracking-wide text-neutral-500">
+                {flow.caption}
+              </span>
+            </span>
             {list.length > 1 && (
               <span className="flex gap-1.5">
                 {list.map((f, i) => (
                   <span
                     key={f.caption}
-                    className={`h-1.5 w-1.5 rounded-full ${i === idx ? "bg-accent" : "bg-neutral-300"}`}
+                    className={`h-1 w-1 rounded-full ${i === idx ? "bg-accent" : "bg-neutral-300"}`}
                   />
                 ))}
               </span>
             )}
           </div>
 
-          <div className="relative h-[296px]">
-            <svg
-              className="absolute -inset-x-2 inset-y-0 h-full w-[calc(100%+16px)] overflow-visible"
-              viewBox="0 0 330 296"
-              fill="none"
-            >
-              {EDGES.map((d) => (
-                <path
-                  key={d}
-                  d={d}
-                  className="pipe-line"
-                  stroke="rgb(var(--accent) / 0.5)"
-                  strokeWidth="2"
-                  strokeDasharray="6 8"
-                  strokeLinecap="round"
-                />
-              ))}
-              {flow.loop && (
-                <path
-                  d={LOOP_EDGE}
-                  className="pipe-line"
-                  stroke="rgb(var(--accent) / 0.3)"
-                  strokeWidth="2"
-                  strokeDasharray="3 9"
-                  strokeLinecap="round"
-                />
-              )}
-            </svg>
+          {/* Steps along a filling progress line */}
+          <div className="relative mt-4">
+            <span className="absolute bottom-4 left-[9px] top-4 w-px bg-neutral-200" />
+            <span className="step-fill absolute bottom-4 left-[9px] top-4 w-px bg-accent" />
 
-            {flow.nodes.map((node, i) => (
+            {flow.steps.map((step, i) => (
               <div
-                key={node.label}
-                className="pipe-node absolute flex items-center gap-2.5 rounded-xl border border-neutral-200 bg-white/90 py-2.5 pl-3 pr-4 backdrop-blur"
-                style={{ top: node.top, left: node.left, "--nd": `${i * 0.95}s` } as React.CSSProperties}
+                key={step.label}
+                className="step-row relative flex items-center gap-3.5 py-2"
+                style={{ "--sd": `${0.3 + i * 0.9}s` } as React.CSSProperties}
               >
-                <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-accent-soft/60 text-accent">
-                  <node.icon size={15} strokeWidth={2.2} />
+                <span className="step-dot relative z-10 flex h-[19px] w-[19px] shrink-0 items-center justify-center rounded-full border-[1.5px] border-neutral-300 bg-white">
+                  <Check size={11} strokeWidth={3} />
                 </span>
-                <span className="whitespace-nowrap font-mono text-xs text-neutral-700">
-                  {node.label}
-                </span>
+                <span className="flex-1 font-mono text-xs text-neutral-700">{step.label}</span>
+                <span className="font-mono text-[10px] text-neutral-400">{step.meta}</span>
               </div>
             ))}
           </div>
 
-          <p className="mt-3 font-mono text-[11px] tracking-wider text-emerald-600">
-            {flow.status}
-          </p>
+          {/* Run summary */}
+          <div className="step-status mt-3 border-t border-neutral-100 pt-3">
+            <span className="flex items-center gap-2 font-mono text-[11px] text-emerald-600">
+              <Check size={12} strokeWidth={3} />
+              {flow.status}
+            </span>
+          </div>
         </div>
       </div>
     </div>
