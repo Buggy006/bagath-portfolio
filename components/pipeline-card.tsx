@@ -2,13 +2,13 @@
 
 import {
   Apple,
-  BarChart3,
-  Database,
   Dumbbell,
+  GitBranch,
+  Hammer,
+  Layers,
   Moon,
   RefreshCw,
-  Workflow,
-  Zap,
+  Rocket,
   type LucideIcon,
 } from "lucide-react";
 import { usePersona } from "./persona";
@@ -16,7 +16,7 @@ import { usePersona } from "./persona";
 /**
  * Floating pipeline diagram, bottom-left of the hero — a zigzag flow
  * whose connectors carry a marching-dash current while nodes glow in
- * sequence. Engineer: data pipeline. Athlete: training loop (with a
+ * sequence. Engineer: DevOps pipeline. Athlete: training loop (with a
  * return edge closing the cycle). Desktop only, decorative.
  */
 
@@ -24,14 +24,14 @@ type Node = { icon: LucideIcon; label: string; top: number; left: number };
 
 const flows = {
   engineer: {
-    caption: "// data pipeline",
-    status: "✓ pipeline healthy",
+    caption: "// devops pipeline",
+    status: "✓ shipped to prod",
     loop: false,
     nodes: [
-      { icon: Database, label: "S3 · raw data", top: 0, left: 0 },
-      { icon: Workflow, label: "Glue · transform", top: 84, left: 130 },
-      { icon: Zap, label: "Lambda · process", top: 168, left: 0 },
-      { icon: BarChart3, label: "Metrics · shipped", top: 252, left: 130 },
+      { icon: GitBranch, label: "Commit · git push", top: 0, left: 0 },
+      { icon: Hammer, label: "Build · CI green", top: 84, left: 130 },
+      { icon: Layers, label: "Terraform · apply", top: 168, left: 0 },
+      { icon: Rocket, label: "Deploy · live", top: 252, left: 130 },
     ] as Node[],
   },
   athlete: {
@@ -112,7 +112,7 @@ export function PipelineCard() {
               <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-accent-soft/60 text-accent">
                 <node.icon size={15} strokeWidth={2.2} />
               </span>
-              <span className="font-mono text-xs text-neutral-700">{node.label}</span>
+              <span className="whitespace-nowrap font-mono text-xs text-neutral-700">{node.label}</span>
             </div>
           ))}
         </div>
