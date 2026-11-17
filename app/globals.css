@@ -2,8 +2,94 @@
 @tailwind components;
 @tailwind utilities;
 
-.bg-pattern {
-  background-color: #000000;
-  background-image: radial-gradient(#ffffff 0.5px, transparent 0.5px);
-  background-size: 10px 10px;
+@layer base {
+  :root {
+    --ink: #090909;
+    --bone: #f2f0eb;
+    --signal: #e5484d;
+    --muted: #929292;
+    color-scheme: dark;
+  }
+
+  * {
+    border-color: theme('colors.hairline');
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-ink text-bone font-sans antialiased;
+    font-feature-settings: 'ss01' 1, 'cv05' 1;
+    text-rendering: optimizeLegibility;
+  }
+
+  /* Visible, high-contrast focus for keyboard users only. */
+  :focus-visible {
+    outline: 2px solid var(--signal);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  ::selection {
+    background: var(--signal);
+    color: var(--bone);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  /* Page shell: one consistent horizontal rhythm across every route. */
+  .shell {
+    @apply mx-auto w-full max-w-shell px-5 sm:px-8 lg:px-12;
+  }
+
+  /* Fine technical grid. Sits behind content at very low contrast. */
+  .grid-texture {
+    background-image: linear-gradient(to right, rgba(242, 240, 235, 0.045) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(242, 240, 235, 0.045) 1px, transparent 1px);
+    background-size: 72px 72px;
+  }
+
+  .dot-texture {
+    background-image: radial-gradient(rgba(242, 240, 235, 0.14) 0.5px, transparent 0.5px);
+    background-size: 18px 18px;
+  }
+
+  .hairline-t {
+    @apply border-t border-hairline;
+  }
+
+  /* Small monospaced-feeling label used for section eyebrows and metadata. */
+  .label {
+    @apply font-display text-[0.6875rem] uppercase tracking-[0.22em] text-muted;
+  }
+
+  .link-underline {
+    @apply relative inline-flex items-center gap-1.5 text-bone transition-colors duration-300 hover:text-signal;
+  }
+
+  .link-underline::after {
+    content: '';
+    @apply absolute -bottom-0.5 left-0 h-px w-full origin-right scale-x-0 bg-signal transition-transform duration-500 ease-editorial;
+  }
+
+  .link-underline:hover::after,
+  .link-underline:focus-visible::after {
+    @apply origin-left scale-x-100;
+  }
 }
