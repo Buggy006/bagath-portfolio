@@ -13,6 +13,12 @@ export const siteConfig = {
   /** Legal name, used for structured data and document titles. */
   fullName: 'Bagath Singh',
   role: 'Cloud Platform + Data + AI Engineer',
+  /** Short job title shown at the top of the home hero. */
+  title: 'Software Engineer',
+  /** Full attribution line shown in the home hero. */
+  introName: 'Bagath Singh aka Buggy',
+  /** Engineering disciplines, shown under the attribution line. */
+  disciplines: ['Cloud', 'Data', 'Platform'] as readonly string[],
   tagline: 'I build systems at the intersection of Cloud, Data & AI.',
   description:
     'Engineer working across cloud platform, data infrastructure and applied AI - infrastructure as code on AWS, analytics pipelines on open table formats, and product surfaces that put models to work.',

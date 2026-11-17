@@ -15,7 +15,7 @@ import { ButtonLink } from '@/components/ui/ButtonLink'
 const TAGLINE_WORDS = siteConfig.tagline.split(' ')
 
 const COORDINATES = [
-  { label: 'Domain', value: 'Cloud · Data · AI' },
+  { label: 'Domain', value: siteConfig.disciplines.join(' · ') },
   { label: 'Primary cloud', value: 'AWS' },
   { label: 'Based in', value: siteConfig.location },
 ]
@@ -39,13 +39,31 @@ export function Hero() {
 
       <div className="shell relative flex min-h-[calc(100svh-5rem)] flex-col justify-center py-24 sm:py-28">
         <motion.div variants={container} initial="hidden" animate="show">
-          <motion.p variants={item} className="label mb-8 flex items-center gap-3">
+          <motion.p variants={item} className="label flex flex-wrap items-center gap-x-3 gap-y-2">
             <span aria-hidden className="relative flex h-2 w-2">
               <span className="absolute inline-flex h-full w-full rounded-full bg-signal opacity-60 motion-safe:animate-ping" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-signal" />
             </span>
-            {siteConfig.role}
+            {siteConfig.title}
+            <span aria-hidden className="h-3 w-px bg-hairline" />
+            {siteConfig.location}
           </motion.p>
+
+          <motion.p
+            variants={item}
+            className="mt-5 font-display text-lg tracking-tight text-bone sm:text-xl"
+          >
+            {siteConfig.introName}
+          </motion.p>
+
+          <motion.ul variants={item} className="mb-9 mt-3 flex flex-wrap items-center gap-x-3 gap-y-2">
+            {siteConfig.disciplines.map((discipline, i) => (
+              <li key={discipline} className="flex items-center gap-3">
+                {i > 0 ? <span aria-hidden className="h-1 w-1 rounded-full bg-signal" /> : null}
+                <span className="label text-[0.6875rem] text-muted">{discipline}</span>
+              </li>
+            ))}
+          </motion.ul>
 
           <h1
             id="hero-heading"
