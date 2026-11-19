@@ -24,7 +24,7 @@ export default function ExperiencePage() {
       <PageHeader
         eyebrow="Experience"
         title="Where the practice comes from."
-        description="Enterprise engineering alongside systems I own end to end. Entries describe technologies and engineering practice only - no proprietary details, internal systems or confidential architecture appear anywhere on this site."
+        description="Enterprise engineering alongside systems I own end to end. Employed work is described at the level I am permitted to share - no internal datasets, dashboards, architecture specifics or performance figures appear here."
         meta={[
           { label: 'Current', value: 'BMW TechWorks India' },
           { label: 'Discipline', value: 'Cloud & Data Engineering' },
@@ -69,24 +69,33 @@ export default function ExperiencePage() {
                   {item.location ? ` · ${item.location}` : ''}
                 </p>
 
-                <p className="mt-5 max-w-prose text-base leading-relaxed text-bone/85">{item.summary}</p>
+                {item.summary ? (
+                  <p className="mt-5 max-w-prose text-base leading-relaxed text-bone/85">{item.summary}</p>
+                ) : null}
 
-                <ul className="mt-7 space-y-4 border-l border-hairline pl-6">
-                  {item.highlights.map((highlight) => (
-                    <li key={highlight} className="relative text-sm leading-relaxed text-muted sm:text-base">
-                      <span aria-hidden className="absolute -left-[25px] top-2.5 h-1.5 w-1.5 rounded-full bg-signal/70" />
-                      {highlight}
-                    </li>
-                  ))}
-                </ul>
+                {item.highlights?.length ? (
+                  <ul className="mt-7 space-y-4 border-l border-hairline pl-6">
+                    {item.highlights.map((highlight) => (
+                      <li key={highlight} className="relative text-sm leading-relaxed text-muted sm:text-base">
+                        <span
+                          aria-hidden
+                          className="absolute -left-[25px] top-2.5 h-1.5 w-1.5 rounded-full bg-signal/70"
+                        />
+                        {highlight}
+                      </li>
+                    ))}
+                  </ul>
+                ) : null}
 
-                <ul className="mt-7 flex flex-wrap gap-1.5">
-                  {item.stack.map((tech) => (
-                    <li key={tech} className="rounded-full bg-bone/[0.05] px-2.5 py-1 text-[0.6875rem] text-muted">
-                      {tech}
-                    </li>
-                  ))}
-                </ul>
+                {item.stack?.length ? (
+                  <ul className="mt-7 flex flex-wrap gap-1.5">
+                    {item.stack.map((tech) => (
+                      <li key={tech} className="rounded-full bg-bone/[0.05] px-2.5 py-1 text-[0.6875rem] text-muted">
+                        {tech}
+                      </li>
+                    ))}
+                  </ul>
+                ) : null}
               </RevealItem>
             ))}
           </Stagger>
@@ -94,11 +103,11 @@ export default function ExperiencePage() {
 
         <Reveal delay={0.1} className="mt-16">
           <p className="rounded-xl border border-hairline bg-surface/40 p-6 text-sm leading-relaxed text-muted">
-            <span className="text-bone">A note on confidentiality.</span> Descriptions of employed work are
-            limited to publicly describable technologies and general engineering practice. No internal project
-            names, datasets, dashboards, architecture specifics or performance figures are published here. I am
-            happy to discuss my work in appropriate depth in conversation, within the bounds of what I am
-            permitted to share.
+            <span className="text-bone">A note on confidentiality.</span> Descriptions of employed work name
+            the platform area and the technologies involved, and stop there. No internal datasets, dashboards,
+            repositories, architecture specifics or performance figures are published here, and work on team and
+            platform initiatives is described as a contribution rather than sole ownership. I am happy to discuss
+            my work in appropriate depth in conversation, within the bounds of what I am permitted to share.
           </p>
         </Reveal>
       </Section>

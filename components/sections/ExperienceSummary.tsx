@@ -37,7 +37,7 @@ export function ExperienceSummary() {
           {experience.map((item) => (
             <RevealItem
               key={item.id}
-              className="rounded-2xl border border-hairline bg-surface/40 p-6 transition-colors duration-500 hover:border-bone/20 sm:p-8"
+              className="rounded-2xl border border-hairline bg-surface/40 p-6 transition-colors duration-200 hover:border-bone/20 sm:p-8"
             >
               <div className="flex flex-wrap items-center gap-3">
                 <h3 className="font-display text-lg tracking-tight text-bone">{item.company}</h3>
@@ -53,13 +53,15 @@ export function ExperienceSummary() {
                 {item.period ? ` · ${item.period}` : ''}
               </p>
               <p className="mt-4 text-sm leading-relaxed text-bone/75">{item.summary}</p>
-              <ul className="mt-5 flex flex-wrap gap-1.5">
-                {item.stack.map((tech) => (
-                  <li key={tech} className="rounded-full bg-bone/[0.05] px-2.5 py-1 text-[0.6875rem] text-muted">
-                    {tech}
-                  </li>
-                ))}
-              </ul>
+              {item.stack?.length ? (
+                <ul className="mt-5 flex flex-wrap gap-1.5">
+                  {item.stack.map((tech) => (
+                    <li key={tech} className="rounded-full bg-bone/[0.05] px-2.5 py-1 text-[0.6875rem] text-muted">
+                      {tech}
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
             </RevealItem>
           ))}
         </Stagger>
