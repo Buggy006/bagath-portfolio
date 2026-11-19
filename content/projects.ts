@@ -9,29 +9,52 @@
  *    itself (what was built, what it makes possible), not business claims.
  */
 
-export type ProjectStatus = 'Production' | 'Prototype' | 'Ongoing'
-export type ProjectDomain = 'Cloud' | 'Data' | 'AI' | 'Product'
+export type ProjectStatus = 'Production' | 'Prototype' | 'In Development' | 'Ongoing'
+export type ProjectDomain = 'Cloud' | 'Infrastructure' | 'Data' | 'Analytics' | 'AI' | 'Product'
 export type DiagramKind = 'request-pipeline' | 'infra-pipeline' | 'lakehouse' | 'web-delivery'
 
 export type CaseStudySection = { title: string; body: string }
 
-export type Project = {
+type ProjectBase = {
   slug: string
   title: string
   subtitle: string
-  year: string
   status: ProjectStatus
   domains: ProjectDomain[]
   /** One-sentence summary used on cards and in list views. */
   summary: string
+  featured: boolean
+  /** Omitted while unconfirmed - the card renders without a date rather than a placeholder. */
+  year?: string
+  /** Omitted while unconfirmed - no technology chips are rendered. */
+  stack?: string[]
+}
+
+/**
+ * A project with a full case study at /projects/<slug>. Every detail field is
+ * required here, so an incomplete case study is a compile error, not a gap in
+ * the page.
+ */
+export type CaseStudyProject = ProjectBase & {
+  caseStudy: true
+  year: string
+  stack: string[]
+  /** Overrides the generic prototype disclaimer. Only read when status is Prototype. */
+  prototypeNote?: string
+  /** Overrides the generic one-line intro above the architecture diagram. */
+  architectureIntro?: string
+  /** Understated footnote at the end of the case study, for work that cannot be shown in full. */
+  confidentialityNote?: string
+  /** Overrides the "Approach" section heading. */
+  approachHeading?: string
+  /** Overrides the "Outcomes" section heading, e.g. for work still in progress. */
+  outcomesHeading?: string
   /** Longer intro used at the top of the case study. */
   intro: string
   role: string
-  stack: string[]
-  featured: boolean
   diagram: DiagramKind
   /** Labelled stages rendered by the animated architecture diagram. */
-  flow: { label: string; detail: string }[]
+  flow: { label: string; detail: string; phase?: string }[]
   problem: string[]
   approach: CaseStudySection[]
   decisions: CaseStudySection[]
@@ -39,224 +62,345 @@ export type Project = {
   nextSteps: string[]
 }
 
+/** A project shown as a card only - no detail page is generated for it. */
+export type CardOnlyProject = ProjectBase & { caseStudy: false }
+
+export type Project = CaseStudyProject | CardOnlyProject
+
 export const projects: Project[] = [
   {
     slug: 'social-intelligence-platform',
+    caseStudy: true,
     title: 'Social Intelligence Platform',
-    subtitle: 'Ingestion, enrichment and analysis of public social data',
+    subtitle: 'Collection, AI enrichment and analysis of social data',
     year: '2025',
     status: 'Prototype',
     domains: ['Product', 'Data', 'AI'],
     summary:
-      'A full-stack platform that collects public social data, enriches it with language models, and makes the result queryable through an analyst-facing interface.',
+      'Social data analysis, AI-powered enrichment and actionable insights.',
     intro:
-      'Social Intelligence Platform is a prototype I built end to end to answer a specific question: what does it take to turn a noisy stream of public social posts into something an analyst can actually reason about? It spans a Next.js front end, a FastAPI service layer, PostgreSQL for durable state, Redis for queueing and caching, and model calls for enrichment.',
-    role: 'Sole engineer - architecture, backend, data model, front end and deployment.',
-    stack: ['Next.js', 'TypeScript', 'FastAPI', 'Python', 'PostgreSQL', 'Redis', 'LLM APIs', 'Docker'],
+      'I’m building a platform that transforms social media data into structured intelligence. It combines data collection, AI-driven analysis and an interactive dashboard to help make online conversations, audience sentiment and emerging topics easier to understand.',
+    role: 'Sole engineer — architecture, backend, data model, frontend and deployment.',
+    stack: ['Next.js', 'TypeScript', 'FastAPI', 'Python', 'PostgreSQL', 'Redis'],
     featured: true,
     diagram: 'request-pipeline',
+    prototypeNote:
+      'This is an independently built prototype exploring the architecture and technical feasibility of a social intelligence system. It is not a production product with customers.',
+    architectureIntro:
+      'From social data to intelligence: the system separates data collection, AI enrichment, persistence and analytical access into distinct stages.',
     flow: [
-      { label: 'Collect', detail: 'Scheduled collectors pull public posts and normalise them into one schema.' },
-      { label: 'Queue', detail: 'Redis holds work items so enrichment never blocks collection.' },
-      { label: 'Enrich', detail: 'Workers call language models for classification, summarisation and entity extraction.' },
-      { label: 'Store', detail: 'PostgreSQL keeps raw records, enrichment output and their lineage separately.' },
-      { label: 'Serve', detail: 'FastAPI exposes filtered, paginated reads to the Next.js analyst UI.' },
+      {
+        label: 'Collect',
+        detail: 'Scheduled collectors retrieve source data and normalise incoming records into a shared structure.',
+      },
+      {
+        label: 'Queue',
+        detail: 'Redis separates collection from enrichment, allowing processing work to be handled independently.',
+      },
+      {
+        label: 'Enrich',
+        detail:
+          'Python workers process records using language models to extract structured signals such as sentiment, topics, summaries and entities.',
+      },
+      {
+        label: 'Store',
+        detail:
+          'PostgreSQL stores source records and their enrichment outputs, allowing analytical data to be queried independently from the original content.',
+      },
+      {
+        label: 'Serve',
+        detail: 'FastAPI provides the data access layer for the analyst interface, built with Next.js.',
+      },
     ],
     problem: [
-      'Public social data arrives unstructured, rate-limited and inconsistent in shape. Each source names the same fields differently, and volume is bursty rather than steady.',
-      'Model enrichment is slow and occasionally fails. Running it inline with collection means one bad response stalls the whole pipeline, and retrying re-pays for work that already succeeded.',
-      'Analysts need to slice the result along dimensions that did not exist in the raw payload - topic, sentiment, named entities - which means enrichment has to be queryable, not just stored.',
+      'Social media data is valuable, but difficult to turn into consistent, actionable insight.',
+      'Data collected from different sources arrives in inconsistent formats, with varying field structures, collection limits and unpredictable volumes. Before it can be analysed, it needs to be normalised into a consistent data model.',
+      'The challenge extends beyond collection. Extracting sentiment, topics, entities and other contextual signals using language models introduces processing latency, failure handling and the need to manage model-generated data independently from the original source.',
+      'And even when those insights are generated, they need to be accessible. Analysts should be able to filter, explore and compare results without relying on raw payloads or running expensive processing every time they open a dashboard.',
+      'I built this prototype to explore how a collection, enrichment and analytics pipeline could bring those pieces together.',
     ],
     approach: [
       {
         title: 'Separate collection from enrichment',
-        body: 'Collectors do one job: fetch, normalise, persist the raw record, push an identifier onto a Redis queue. Enrichment workers consume that queue independently. A failure on either side degrades one stage instead of the pipeline, and enrichment can be scaled or replayed without re-fetching anything.',
+        body: 'Collection and model processing have different execution characteristics. Collection is constrained by source availability and rate limits, while enrichment introduces processing latency and model failures. I separated these stages so collection does not depend on enrichment completing synchronously — records can be collected and persisted first, with enrichment handled independently through queued work. This separation also creates a path to retry processing and scale the enrichment workload without coupling it to collection.',
       },
       {
-        title: 'Model output as data, not as a side effect',
-        body: 'Every enrichment is written as its own row carrying the model used, the prompt version and a timestamp, linked back to the source record. That makes it possible to re-run an improved prompt over historical data and compare the two generations side by side rather than silently overwriting the old answer.',
+        title: 'Treat enrichment as a separate data layer',
+        body: 'Model-generated insights are not the source data itself. They are derived outputs that can change as models, prompts and analysis methods evolve. I designed enrichment as a separate layer linked to the original record, making it possible to retain generated results alongside their metadata and explore how analysis evolves over time.',
       },
       {
-        title: 'A schema that assumes the shape will change',
-        body: 'Source-specific fields live in a JSONB column while the fields every source shares are promoted to real typed columns with indexes. Adding a new source means writing a normaliser, not migrating the table.',
+        title: 'Design for changing data sources',
+        body: 'Social data is not uniform across sources. A rigid schema that assumes every source has identical fields can make integrations unnecessarily expensive to maintain. The data model combines shared fields with flexible source-specific attributes, so source-specific data is retained while a common structure remains available for downstream analysis.',
       },
       {
-        title: 'A read API built for the actual access pattern',
-        body: 'The analyst view is filter-heavy and paginated. The API exposes keyset pagination and pushes filtering into indexed columns rather than loading rows into Python, and Redis caches the handful of aggregate queries that the dashboard repeats on every load.',
+        title: 'Build for analytical access',
+        body: 'The dashboard needs to explore enriched records through filters, pagination and analytical queries rather than simply displaying collected data. The backend provides a dedicated API layer for the frontend, keeping data access and processing logic separate from presentation and interaction.',
       },
     ],
     decisions: [
       {
-        title: 'Redis as a queue before reaching for a broker',
-        body: 'The workload is a single-consumer-group job queue with modest durability requirements. Redis was already in the stack for caching, and adding a dedicated broker would have introduced an operational surface the prototype does not need. The queue interface is isolated behind one module so swapping it later is a contained change.',
+        title: 'Redis before introducing another messaging system',
+        body: 'The prototype’s processing workload did not initially justify introducing a dedicated messaging infrastructure. Redis was already part of the stack, so using it for queued work reduced the number of moving parts while allowing collection and enrichment to remain separate. The queue abstraction also leaves room to introduce a more durable messaging system as the workload and reliability requirements evolve.',
       },
       {
-        title: 'FastAPI rather than putting Python work in route handlers of the Next.js app',
-        body: 'Enrichment, collection and the model clients are Python. Keeping that in a typed Python service with its own lifecycle meant the web tier stayed a rendering and interaction concern, and the heavy work could be scaled and deployed on its own schedule.',
+        title: 'FastAPI for the Python processing layer',
+        body: 'Collection, enrichment and model integrations are Python-oriented workloads. Rather than coupling those capabilities to the Next.js application, I used FastAPI as a separate service. This keeps the web application focused on presentation and interaction while giving the processing layer its own runtime and deployment boundary.',
       },
       {
-        title: 'Idempotent writes keyed on source identity',
-        body: 'Collectors re-fetch overlapping windows by design. Upserting on a composite source key makes repeated collection safe and removes the need for exactly-once delivery guarantees anywhere in the pipeline.',
+        title: 'Separate source records from model-generated insights',
+        body: 'Source data and model output have different lifecycles. Source records represent collected information, while enrichment represents an interpretation that may change with prompts, models or analysis methods. Keeping them logically separate provides a foundation for evolving the analytical layer without treating every new model output as a replacement for the original data.',
+      },
+      {
+        title: 'Normalisation without losing source-specific data',
+        body: 'A shared data model makes downstream processing and analysis easier, but source-specific fields can evolve independently. The design balances a common structure for analytical queries with flexibility for source-specific attributes, reducing the need to redesign the data model whenever an integration changes.',
       },
     ],
     outcomes: [
-      'A working end-to-end system: collection, queued enrichment, persistence and an analyst UI that queries it.',
-      'Enrichment can be re-run over historical records with a new prompt without re-fetching source data, because model output is versioned and stored separately from the source.',
-      'Adding a new data source is a normaliser module plus a config entry - no schema migration and no change to the enrichment workers.',
+      'Built a prototype spanning collection, queued processing, AI enrichment, persistence and an analyst-facing interface.',
+      'Established a separation between source records and derived analytical outputs.',
+      'Designed a common data model intended to accommodate multiple data sources.',
+      'Created an architecture with distinct backend, processing and frontend responsibilities.',
     ],
     nextSteps: [
-      'Move the enrichment queue onto a broker with durable consumer groups if throughput requirements grow past a single worker pool.',
-      'Add an evaluation harness so prompt revisions can be scored against a labelled sample before being promoted.',
+      'Introduce more durable queue processing — evaluate a broker with durable delivery, consumer groups and recovery mechanisms as processing volume and reliability requirements increase.',
+      'Build an evaluation pipeline for AI enrichment — create a labelled dataset and evaluation harness to measure the quality of sentiment, topic and entity extraction before changing models or prompts.',
+      'Expand analytical capabilities — introduce deeper trend analysis, topic clustering, audience insights and temporal comparisons to move beyond individual enriched records.',
+      'Improve observability and operational resilience — add processing metrics, structured failure tracking, retry visibility and monitoring across collection and enrichment.',
+      'Validate the product with real users — use the prototype to explore analytical workflows and validate whether the insights generated are useful for creators, marketers and businesses.',
     ],
   },
   {
     slug: 'aws-infrastructure-automation',
+    caseStudy: true,
     title: 'AWS Infrastructure Automation',
-    subtitle: 'Reproducible container platform defined entirely in Terraform',
+    subtitle: 'Terraform-provisioned infrastructure and container deployment',
     year: '2025',
     status: 'Production',
-    domains: ['Cloud'],
+    domains: ['Cloud', 'Infrastructure'],
     summary:
-      'Terraform-defined AWS environments with containerised workloads on ECS, images in ECR, and a CI/CD path that takes a commit to a running task without manual steps.',
+      'Automated AWS infrastructure and container deployment with Terraform.',
     intro:
-      'This is the infrastructure work I keep returning to: describing an AWS environment precisely enough that it can be destroyed and recreated without a runbook. Networking, compute, image storage, roles and deployment are all code, and a push to the default branch is the only trigger a release needs.',
-    role: 'Platform engineering - Terraform modules, container build pipeline, deployment automation.',
-    stack: ['AWS', 'Terraform', 'Docker', 'Amazon ECS', 'Amazon ECR', 'GitHub Actions', 'IAM', 'CloudWatch'],
+      'I implemented infrastructure provisioning and container deployment workflows using Terraform and AWS container services. By integrating infrastructure configuration, container builds and deployment automation, the workflow made cloud environments more reproducible and application delivery more consistent.',
+    role: 'Platform Engineering — Terraform infrastructure, container build workflows and deployment automation.',
+    stack: ['AWS', 'Terraform', 'Docker', 'Amazon ECS', 'Amazon ECR', 'GitHub Actions'],
     featured: true,
     diagram: 'infra-pipeline',
+    architectureIntro:
+      'The delivery workflow, from a change in the development environment through controlled integration to production across a multi-cloud environment.',
+    confidentialityNote:
+      'Due to internal company confidentiality, source code, repository access and certain implementation details are not publicly disclosed. This case study presents a sanitized overview of the engineering work.',
     flow: [
-      { label: 'Commit', detail: 'A push to the default branch starts the pipeline - no manual release step.' },
-      { label: 'Build', detail: 'A multi-stage Docker build produces one immutable image tagged with the commit SHA.' },
-      { label: 'Push', detail: 'The image lands in ECR, where lifecycle policies bound how long old tags are retained.' },
-      { label: 'Plan', detail: 'Terraform plans against remote state with locking, so concurrent runs cannot diverge.' },
-      { label: 'Deploy', detail: 'ECS rolls the service forward behind health checks and rolls back on failure.' },
+      {
+        label: 'Development',
+        phase: 'Develop',
+        detail:
+          'Changes are introduced and validated within the development environment / prefix before progressing through the integration workflow.',
+      },
+      {
+        label: 'Feature Branch',
+        phase: 'Develop',
+        detail: 'Changes are pushed to a feature branch, establishing an isolated path for integration and review.',
+      },
+      {
+        label: 'CI Validation',
+        phase: 'Integrate',
+        detail:
+          'Opening a Pull Request triggers CI checks to validate the proposed changes before they can be merged.',
+      },
+      {
+        label: 'Review & Merge',
+        phase: 'Integrate',
+        detail:
+          'Successful CI validation and required PR approval gate the merge, providing a controlled integration process.',
+      },
+      {
+        label: 'Continuous Delivery',
+        phase: 'Deliver',
+        detail: 'The merge triggers the CD workflow, initiating the production delivery process.',
+      },
+      {
+        label: 'Production',
+        phase: 'Deliver',
+        detail:
+          'Changes are deployed through the production delivery pipeline across the relevant services and infrastructure within the multi-cloud environment.',
+      },
     ],
     problem: [
-      'Environments built by hand drift. The console lets you fix something quickly and leaves no record that you did, so staging and production slowly stop resembling each other.',
-      '"Latest" tags make deployments unreproducible: the image a service runs cannot be traced back to the commit that produced it.',
-      'Permissions granted interactively tend to be broader than necessary and nobody revisits them once something works.',
+      'Infrastructure managed through manual changes becomes difficult to reproduce and maintain consistently across environments. Changes made directly through the console can introduce configuration drift and leave infrastructure decisions outside version control.',
+      'Mutable container tags make it difficult to reliably identify the image running in a service or associate a deployment with a specific source revision.',
+      'Unstructured permission changes can also make access policies harder to audit, maintain and consistently enforce.',
     ],
     approach: [
       {
         title: 'Composable Terraform modules with explicit interfaces',
-        body: 'Networking, cluster, service and observability are separate modules with narrow inputs and outputs. An environment is a thin root module that wires them together with its own variables, so staging and production are the same code with different numbers rather than two diverging copies.',
+        body: 'Infrastructure components are separated into reusable Terraform modules with defined inputs and outputs. Environment-level configurations compose these modules, allowing infrastructure to be managed through a consistent configuration rather than duplicated definitions.',
       },
       {
-        title: 'Remote state with locking from day one',
-        body: 'State lives in S3 with DynamoDB-based locking. It costs almost nothing and removes the entire class of failure where two applies run at once and leave resources half-owned.',
+        title: 'Remote state and concurrency control',
+        body: 'Terraform state is maintained remotely, with locking to prevent concurrent infrastructure operations from conflicting. This provides a centralized state reference for infrastructure management.',
       },
       {
-        title: 'Immutable, commit-addressed images',
-        body: 'Every build tags the image with the commit SHA and pushes it to ECR. Task definitions reference that exact tag. Any running task can be traced back to the source that produced it, and a rollback is a redeploy of a previous definition rather than a rebuild.',
+        title: 'Immutable, commit-addressed container images',
+        body: 'Container images are versioned using commit identifiers, enabling deployments to reference specific build artifacts instead of relying on mutable tags. This improves deployment traceability and supports version-based rollback workflows.',
       },
       {
-        title: 'Roles scoped per task, not per account',
-        body: 'Each ECS service gets a task role carrying only the permissions that workload needs, separate from the execution role used to pull images and write logs. Policies are written in Terraform, which makes a permission change reviewable in a pull request.',
+        title: 'Workload-specific IAM permissions',
+        body: 'IAM roles and policies are scoped to individual workloads where applicable, separating application permissions from infrastructure execution permissions. Infrastructure-managed policies make permission changes easier to review and track.',
       },
       {
-        title: 'Health checks that gate the rollout',
-        body: 'The service defines a container health check and a deployment circuit breaker. A task that starts but never becomes healthy stops the rollout and reverts instead of quietly replacing a working revision.',
+        title: 'Health-validated deployments',
+        body: 'Deployment health checks validate service readiness during rollout. Where deployment rollback mechanisms are configured, unsuccessful deployments can be prevented from replacing healthy service revisions.',
       },
     ],
     decisions: [
       {
-        title: 'ECS over a managed Kubernetes control plane',
-        body: 'The workloads are a small number of long-running HTTP services and scheduled tasks. ECS covers that with far less operational surface - no cluster upgrades, no add-on compatibility matrix - and the deployment primitives map cleanly onto Terraform. Kubernetes would have been infrastructure to maintain rather than infrastructure to use.',
+        title: 'ECS over Kubernetes',
+        body: 'ECS provides container orchestration through AWS-native services without introducing the additional operational complexity of maintaining a Kubernetes control plane and its surrounding ecosystem. For the workloads and operational requirements involved, it offered a simpler deployment model.',
       },
       {
-        title: 'Terraform rather than CloudFormation or CDK',
-        body: 'Terraform keeps infrastructure declarative and legible to anyone reading the repository, and the plan output is a genuine review artefact. CDK is pleasant to write but makes diffs harder to reason about, which matters more than authoring ergonomics for infrastructure that changes rarely and must be understood quickly.',
+        title: 'Terraform over CloudFormation or CDK',
+        body: 'Terraform provides declarative infrastructure definitions, reusable modules and plan-based visibility into infrastructure changes. This supports reviewable infrastructure changes and a consistent provisioning workflow.',
       },
       {
-        title: 'Multi-stage Docker builds with pinned base images',
-        body: 'Build tooling never reaches the runtime image, which keeps it small and reduces what is exposed. Base images are pinned by digest so a rebuild of an old commit produces the same artefact.',
+        title: 'Multi-stage Docker builds',
+        body: 'Multi-stage builds separate build-time dependencies from the runtime image, helping reduce the size and unnecessary contents of deployment artifacts.',
       },
     ],
     outcomes: [
-      'An environment can be torn down and recreated from the repository alone - there is no step that exists only in someone’s memory.',
-      'Every running container maps to a specific commit, so debugging starts from a known artefact instead of a guess.',
-      'Infrastructure and permission changes go through pull request review with a Terraform plan attached, rather than being applied in the console.',
+      'Reproducible infrastructure — infrastructure configuration provides a version-controlled foundation for provisioning and managing cloud environments.',
+      'Deployment traceability — versioned container artifacts make it easier to associate running workloads with specific builds and source revisions.',
+      'Reviewable infrastructure changes — infrastructure and configuration changes can be managed through version control and reviewed as part of the engineering workflow.',
     ],
     nextSteps: [
-      'Add policy-as-code checks to the plan stage so disallowed resource shapes fail in CI rather than in review.',
-      'Publish per-service dashboards and alarms from the same modules that define the services.',
+      'Policy-as-code enforcement — integrate policy checks into the Terraform pipeline to automatically detect non-compliant infrastructure configurations before deployment.',
+      'Infrastructure-level observability — extend Terraform modules to provision standardized service dashboards, metrics and alarms, making observability part of the infrastructure definition.',
     ],
   },
   {
     slug: 'data-engineering-analytics',
+    caseStudy: true,
     title: 'Data Engineering & Analytics',
-    subtitle: 'An open lakehouse on S3 with Iceberg tables and SQL-first access',
+    subtitle: 'Iceberg tables on S3 with serverless SQL and dashboard consumption',
     year: '2024 - 2025',
     status: 'Production',
-    domains: ['Data'],
+    domains: ['Data', 'Analytics'],
     summary:
-      'Python ingestion into Apache Iceberg tables on S3, queried with Athena and surfaced through QuickSight - schema evolution and time travel without a warehouse migration.',
+      'Building analytical datasets on an open lakehouse architecture.',
     intro:
-      'Analytics work where the hard part is rarely the chart. It is making the underlying tables trustworthy: ingestion that can be re-run safely, a table format that tolerates schema change, partitioning that matches how people actually query, and a serving layer that does not require every analyst to learn the pipeline.',
-    role: 'Data engineering - ingestion, table design, partitioning strategy, query layer and dashboards.',
-    stack: ['Python', 'SQL', 'Apache Iceberg', 'Amazon Athena', 'Amazon S3', 'AWS Glue Data Catalog', 'QuickSight'],
+      'I built data pipelines and analytical data layers using Apache Iceberg on Amazon S3, enabling SQL-based analysis through Athena and dashboard consumption through QuickSight. The architecture combines open table formats, scalable storage and serverless querying to support structured analytical workflows.',
+    role: 'Data Engineering — ingestion, data modelling, table design, query layer and analytical consumption.',
+    stack: [
+      'Python',
+      'SQL',
+      'Apache Iceberg',
+      'Amazon S3',
+      'Amazon Athena',
+      'AWS Glue Data Catalog',
+      'Amazon QuickSight',
+    ],
     featured: true,
     diagram: 'lakehouse',
     flow: [
-      { label: 'Ingest', detail: 'Python jobs land raw extracts in S3, partitioned by ingestion date.' },
-      { label: 'Model', detail: 'Transformations write typed Iceberg tables with explicit partition specs.' },
-      { label: 'Catalog', detail: 'Glue holds table metadata so every engine sees the same schema.' },
-      { label: 'Query', detail: 'Athena runs SQL directly against Iceberg - no cluster to keep warm.' },
-      { label: 'Present', detail: 'QuickSight reads curated tables, never raw landing data.' },
+      {
+        label: 'Ingest',
+        detail:
+          'Data ingestion processes collect source data and land it in Amazon S3, establishing the foundation for downstream processing and analytics.',
+      },
+      {
+        label: 'Model',
+        detail:
+          'Transformation workflows organize the data into structured Apache Iceberg tables, creating analytical datasets suited to downstream consumption.',
+      },
+      {
+        label: 'Catalog',
+        detail:
+          'AWS Glue Data Catalog manages table metadata, enabling supported analytical services to discover and access the datasets.',
+      },
+      {
+        label: 'Query',
+        detail:
+          'Amazon Athena enables SQL-based analysis directly against the data stored in Amazon S3 through the table and catalog integration.',
+      },
+      {
+        label: 'Present',
+        detail:
+          'Amazon QuickSight consumes prepared analytical datasets to power dashboards and reporting, separating analytical presentation from the underlying ingestion workflows.',
+      },
     ],
     problem: [
-      'Plain Parquet on S3 gives you files, not tables. There is no atomic commit, so a reader can observe a half-written partition, and a rename-based overwrite is not safe under concurrency.',
-      'Schemas change. Adding or reordering a column in a directory-of-files layout tends to mean rewriting history or accepting that old partitions read back wrong.',
-      'Scan cost is a direct function of partition design. Partitioning on the wrong column means every query reads the whole table and the bill reflects it.',
+      'Data stored as files in object storage does not inherently provide the transactional and table-management capabilities required for reliable analytical workloads. Managing data directly through file-based layouts introduces challenges around consistency, metadata, concurrent operations and table evolution.',
+      'As analytical datasets evolve, schema changes need to be managed without unnecessarily rewriting historical data or compromising downstream consumption.',
+      'Query performance and cost also depend on how datasets are organized and how analytical workloads access the underlying data. Poor data layout and inefficient query patterns can increase scan volume and processing costs.',
     ],
     approach: [
       {
-        title: 'Iceberg for the table layer',
-        body: 'Iceberg adds atomic snapshot commits, schema evolution by column ID rather than by position, and hidden partitioning. Readers always see a consistent snapshot, a column can be added or renamed without rewriting data, and queries do not have to know the physical partition layout to benefit from pruning.',
+        title: 'Apache Iceberg as the table layer',
+        body: 'Apache Iceberg provides table-level capabilities such as atomic commits, schema evolution and snapshot-based data management. It enables analytical datasets to evolve while maintaining a structured and consistent table abstraction over object storage.',
       },
       {
-        title: 'A layered model: landing, curated, serving',
-        body: 'Raw extracts are written once and never edited, so a bug in a transformation is always recoverable by replay. Curated tables hold typed, deduplicated entities. Serving tables are shaped for the questions dashboards ask. Each layer has one job and one owner.',
+        title: 'Layered data architecture',
+        body: 'Data processing is organized into distinct layers to separate ingestion, transformation and analytical consumption. This separation improves maintainability and makes datasets easier to manage for downstream workloads.',
       },
       {
-        title: 'Partition on the column people filter by',
-        body: 'Partition specs follow observed query patterns - usually an event date - rather than whatever key happened to be convenient at ingestion. Iceberg’s hidden partitioning means an analyst filtering on a timestamp gets pruning without writing a partition predicate by hand.',
+        title: 'Query-aware table design',
+        body: 'Table organization and partitioning strategies are designed around analytical access patterns to improve query efficiency and reduce unnecessary data scanning.',
       },
       {
-        title: 'Idempotent ingestion with merge semantics',
-        body: 'Jobs are written so that re-running them for a window produces the same table state. Merge-on-read handles late-arriving and corrected records without a full rewrite, which makes backfills routine rather than risky.',
+        title: 'Reliable data processing',
+        body: 'Ingestion and transformation workflows are designed to support repeatable processing and the management of evolving datasets, including corrections and data updates where applicable.',
       },
       {
-        title: 'Maintenance treated as part of the pipeline',
-        body: 'Small-file compaction and snapshot expiry run on a schedule. Without them an Iceberg table accumulates metadata and tiny files until planning time dominates query time - the failure mode is gradual, so it has to be automated rather than noticed.',
+        title: 'Table maintenance and lifecycle',
+        body: 'Table maintenance considers the lifecycle of data files, metadata and snapshots to help sustain query efficiency and manage the operational overhead of analytical tables.',
       },
     ],
     decisions: [
       {
         title: 'Athena rather than a provisioned warehouse',
-        body: 'Query volume is analytical and bursty. Paying per scanned byte against data that already lives in S3 avoids keeping a cluster warm for a workload that is idle most of the day, and keeps the storage layer open to other engines.',
+        body: 'Athena enables SQL-based analytical querying directly against data stored in Amazon S3 without requiring a continuously running query cluster. This provides a serverless query model suited to analytical workloads and integrates with the broader AWS data ecosystem.',
       },
       {
-        title: 'Iceberg over Hive-style tables',
-        body: 'The decisive features were atomic commits and schema evolution. Both are things you only miss once a reader has seen a partially written partition or a reordered column has silently corrupted a report.',
+        title: 'Apache Iceberg over conventional file-based tables',
+        body: 'Iceberg introduces a table abstraction with capabilities such as transactional commits, schema evolution and snapshot management. These capabilities improve the manageability and reliability of analytical datasets as they evolve.',
       },
       {
-        title: 'Dashboards read serving tables only',
-        body: 'QuickSight never points at landing data. It makes dashboard performance predictable, and it means a change to how data is ingested cannot break a dashboard without first breaking a table that has a test.',
+        title: 'Curated datasets for dashboard consumption',
+        body: 'Separating data preparation from dashboard consumption provides a structured analytical layer. This reduces coupling between source ingestion and presentation and gives dashboards a more consistent dataset to consume.',
       },
     ],
     outcomes: [
-      'Analysts query current data with plain SQL and no knowledge of the ingestion pipeline.',
-      'Schema changes ship without rewriting historical partitions or breaking existing queries.',
-      'Pipeline reruns and backfills are safe operations rather than events that need coordination.',
+      'Accessible analytical datasets — analytical data is accessible through SQL-based querying without requiring a traditional provisioned warehouse.',
+      'Evolving data structures — the table architecture supports structured schema evolution and the management of analytical datasets over time.',
+      'Separated analytical consumption — dashboards consume prepared datasets through a dedicated analytical layer, separating data preparation from presentation.',
     ],
     nextSteps: [
-      'Add data-quality assertions between layers so a failed expectation blocks promotion to the serving layer.',
-      'Expose table-level freshness as a first-class signal in the dashboards that depend on it.',
+      'AI-ready analytical datasets — extend the curated data layer into ML-ready datasets with structured features, enriched signals and reusable data representations that support machine learning workflows and AI-driven insights.',
+      'Data quality and observability — introduce automated data-quality checks and dataset freshness signals to establish greater confidence in the data consumed by downstream analytics and ML workloads.',
     ],
+  },
+  /**
+   * REVIEW BEFORE PUBLISHING
+   * Added from a partial brief. Still missing and deliberately not invented:
+   *  - the full description (the source text ended mid-sentence)
+   *  - technology tags  -> `stack` omitted, so no chips render
+   *  - a confirmed date  -> `year` omitted, so no date renders
+   * `caseStudy: false` means this renders as a card only: no /projects page,
+   * no OG image and no sitemap entry. Fill the fields in and flip it to
+   * `caseStudy: true` to promote it, which the type will then enforce.
+   */
+  {
+    slug: 'wiz-remediation-bot',
+    caseStudy: false,
+    title: 'Wiz Remediation Bot',
+    subtitle: 'Agentic AI · Security Automation',
+    status: 'Prototype',
+    domains: ['AI'],
+    summary: 'An autonomous agent built to automate vulnerability remediation workflows using Wiz.',
+    featured: true,
   },
   {
     slug: 'high-on-fitness',
+    caseStudy: true,
     title: 'High On Fitness',
     subtitle: 'A fast, accessible fitness site deployed on AWS Amplify',
     year: '2024',
@@ -318,12 +462,134 @@ export const projects: Project[] = [
       'Track Core Web Vitals from real traffic rather than relying on synthetic lab runs alone.',
     ],
   },
+  {
+    slug: 'ai-augmented-software-development-platform',
+    caseStudy: true,
+    title: 'AI-Augmented Software Development Platform',
+    subtitle: 'Jira-led planning, queued AI agents and shared repository intelligence.',
+    year: '2026',
+    status: 'In Development',
+    domains: ['AI', 'Cloud'],
+    summary:
+      'A collaborative engineering platform designed to turn approved Jira stories into tested, reviewed software changes through coordinated AI agents and versioned repository knowledge.',
+    intro:
+      'A collaborative engineering platform designed to turn approved Jira stories into tested, reviewed software changes through coordinated AI agents and versioned repository knowledge. It is a team initiative at BMW TechWorks India and is currently being built; the description below separates what the architecture defines from what remains proposed.',
+    role: 'Contributing engineer — backend workflows, agent orchestration and cloud infrastructure, as part of a wider team initiative.',
+    stack: ['Python', 'AWS Lambda', 'Amazon SQS', 'DynamoDB', 'Amazon S3', 'GitHub', 'LLM Integration'],
+    featured: false,
+    diagram: 'request-pipeline',
+    approachHeading: 'Platform breakdown',
+    outcomesHeading: 'Design properties',
+    prototypeNote:
+      'This platform is under active development as a collaborative team initiative. It is described at the level of architecture and operating model only, and no claim is made about production adoption.',
+    architectureIntro:
+      'The delivery path, from an approved Jira story through queued agent work to a reviewed change. Human approval gates the start and the end.',
+    confidentialityNote:
+      'Due to internal company confidentiality, source code, repository access and certain implementation details are not publicly disclosed. This case study presents a sanitized overview of a collaborative engineering initiative, and does not represent work independently designed or owned by one person.',
+    flow: [
+      {
+        label: 'Plan',
+        phase: 'Human-led',
+        detail:
+          'Developers refine and approve stories in Jira. A scheduled intake picks up approved work rather than reacting to every change.',
+      },
+      {
+        label: 'Specify',
+        phase: 'Human-led',
+        detail:
+          'LLM-assisted refinement produces a specification revision. The revision is frozen and requires explicit human approval before anything downstream can act on it.',
+      },
+      {
+        label: 'Dispatch',
+        phase: 'Orchestrated',
+        detail:
+          'Amazon SQS routes approved work to role-specific queues - coding, testing, quality, review, dashboard generation and repository indexing.',
+      },
+      {
+        label: 'Execute',
+        phase: 'Orchestrated',
+        detail:
+          'Lambda-based orchestration and agent workers pick up tasks, consult repository knowledge and produce their expected outputs.',
+      },
+      {
+        label: 'Verify',
+        phase: 'Gated',
+        detail:
+          'Testing, quality checks and review run over the result. Repair attempts are bounded, and work that cannot be resolved escalates to a person.',
+      },
+      {
+        label: 'Promote',
+        phase: 'Gated',
+        detail:
+          'A change reaches controlled CI/CD promotion only after human approval. Nothing merges on an agent decision alone.',
+      },
+    ],
+    problem: [
+      'A story that has been approved by a team is still a long way from a reviewed change. The work in between - reading the right part of the codebase, writing the change, testing it, checking quality and getting it reviewed - is coordination work, and it is where most of the elapsed time goes.',
+      'Handing that coordination to language models introduces its own problems. Model work is slow and occasionally wrong, so it cannot sit on the critical path of a developer waiting at a keyboard. It also needs an accurate view of the repository, because a confident change written against a stale understanding of the code is worse than no change at all.',
+      'The platform exists to make that coordination explicit: a specification a human approved, queues that carry work between specialised agents, repository knowledge that knows which commit it describes, and approval gates at both ends.',
+    ],
+    approach: [
+      {
+        title: 'Architecture Overview',
+        body: 'Planning and approval stay with developers in Jira, with LLM-assisted requirement refinement producing the specification that downstream work reads. Orchestration is centred on Amazon SQS: a Lambda-based orchestrator dispatches to role-specific queues for coding, testing, quality, review, dashboard generation and repository indexing, with agent workers consuming from them. DynamoDB holds operational state - what a task is, where it is and what happened to it - while Amazon S3 holds artifacts and versioned repository snapshots.',
+      },
+      {
+        title: 'Operating Model',
+        body: 'Specification refinement is developer-led: a revision is frozen and requires explicit human approval before any agent acts on it. Jira intake runs on a schedule rather than continuously, and approved work is dispatched through queues, with results handled the same way. Each agent has a defined responsibility and an expected output - a change, a test run, a quality result, a review. Testing, quality checks and review precede a final human approval. Repair attempts are bounded: an agent gets a limited number of passes at a failure, after which the task escalates to a person rather than looping.',
+      },
+      {
+        title: 'Repository Intelligence',
+        body: 'Agents read the codebase through a shared retrieval API rather than each holding their own view. A GitHub repository is indexed in three modes - an initial full pass, incremental updates as commits land, and periodic reconciliation to correct drift. Knowledge is commit-scoped, so a consumer can tell which revision its view describes, and a freshness check runs before coding begins. Retrieval covers semantic code and document search alongside a relationship graph and repository metadata. Indexing resolves to an explicit IndexReady or IndexFailed outcome, so downstream work never has to guess whether the index behind it is usable.',
+      },
+      {
+        title: 'Implementation Boundaries',
+        body: 'Operational state and repository knowledge are kept apart on purpose: DynamoDB owns task and workflow state, S3 owns artifacts and versioned snapshots, and rebuilding an index never disturbs in-flight work. Graph storage and semantic search are treated as implementation choices rather than fixed commitments, and are evaluated separately. Dashboard generation is standardised so reporting does not fork per team. Promotion through CI/CD stays controlled and human-approved. Repository permissions are scoped, secrets are excluded from anything indexed, and the rollout is phased rather than switched on wholesale.',
+      },
+    ],
+    decisions: [
+      {
+        title: 'Semantic search backend (proposed)',
+        body: 'Semantic code and document retrieval needs a vector store. S3 Vectors is under evaluation for this, which would keep retrieval close to the artifact and snapshot storage already in use. It is a proposed choice, not a settled one, and the retrieval API is defined so the backend can change without the agents noticing.',
+      },
+      {
+        title: 'Relationship graph storage (proposed)',
+        body: 'The relationship graph between code entities is a distinct access pattern from semantic search, and a graph store suits it better than either DynamoDB or a vector index. Amazon Neptune is the candidate under consideration. This remains proposed, and the graph is consumed through the same shared retrieval API.',
+      },
+      {
+        title: 'Long-running orchestration (conditional)',
+        body: 'Lambda covers dispatch and most agent work, but some sequences exceed what a single function invocation should carry. AWS Step Functions is the conditional answer for those paths - adopted where a workflow genuinely needs durable, long-running coordination rather than applied across the board.',
+      },
+      {
+        title: 'Heavier execution environments (conditional)',
+        body: 'Some agent work, particularly builds and test execution, can outgrow the Lambda execution model. CodeBuild or ECS execution is held as a conditional option for those workloads. Keeping it conditional avoids paying for a heavier runtime on tasks that do not need one.',
+      },
+    ],
+    outcomes: [
+      'Human approval gates both ends: no specification reaches an agent queue, and no change reaches promotion, without an explicit human decision.',
+      'Operational state and repository knowledge sit in separate stores, so an index can be rebuilt or reconciled without touching in-flight task state.',
+      'Repository knowledge is commit-scoped and freshness-checked, so an agent can establish whether its view of the code is current before writing against it.',
+      'Failure is bounded rather than retried indefinitely - repair attempts are capped, and unresolved work escalates to a person.',
+    ],
+    nextSteps: [
+      'Phased rollout — extend the platform one capability at a time rather than enabling the full agent set at once, so each queue and agent role can be assessed on its own.',
+      'Settle the proposed components — evaluate the semantic search and relationship graph backends against real repository scale before committing to either.',
+      'Evaluation for agent output — establish how coding, testing and review results are judged, so quality is measured rather than assumed.',
+    ],
+  },
 ]
 
 export const featuredProjects = projects.filter((p) => p.featured)
+
+/** Only these generate a /projects/<slug> page, an OG image and a sitemap entry. */
+export const caseStudies = projects.filter((p): p is CaseStudyProject => p.caseStudy)
 
 export function getProject(slug: string): Project | undefined {
   return projects.find((p) => p.slug === slug)
 }
 
-export const projectSlugs = projects.map((p) => p.slug)
+export function getCaseStudy(slug: string): CaseStudyProject | undefined {
+  return caseStudies.find((p) => p.slug === slug)
+}
+
+export const projectSlugs = caseStudies.map((p) => p.slug)

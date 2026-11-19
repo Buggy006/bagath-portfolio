@@ -7,18 +7,28 @@ import { Section } from '@/components/ui/Section'
 import { Reveal, Stagger, RevealItem } from '@/components/ui/Reveal'
 import { FlowDiagram } from '@/components/visuals/FlowDiagram'
 import { StatusTag } from '@/components/ui/Tag'
-import { getProject, projects } from '@/content/projects'
+import { getCaseStudy, caseStudies } from '@/content/projects'
 import { siteConfig } from '@/content/site'
+import { cn } from '@/lib/utils'
 
-type Params = { params: { slug: string } }
+/** Next 15 delivers route params asynchronously. */
+type Params = { params: Promise<{ slug: string }> }
 
-/** Every case study is statically generated - the content set is finite and known. */
+/**
+ * The case-study set is finite and known, so only these slugs exist. Without
+ * `dynamicParams = false`, Next renders any other slug on demand and caches the
+ * resulting not-found page as a 200 (a soft 404) for a year - including
+ * card-only projects such as wiz-remediation-bot, which have no page at all.
+ */
+export const dynamicParams = false
+
 export function generateStaticParams() {
-  return projects.map((project) => ({ slug: project.slug }))
+  return caseStudies.map((project) => ({ slug: project.slug }))
 }
 
-export function generateMetadata({ params }: Params): Metadata {
-  const project = getProject(params.slug)
+export async function generateMetadata({ params }: Params): Promise<Metadata> {
+  const { slug } = await params
+  const project = getCaseStudy(slug)
   if (!project) return { title: 'Project not found' }
 
   return {
@@ -44,12 +54,13 @@ export function generateMetadata({ params }: Params): Metadata {
   }
 }
 
-export default function ProjectPage({ params }: Params) {
-  const project = getProject(params.slug)
+export default async function ProjectPage({ params }: Params) {
+  const { slug } = await params
+  const project = getCaseStudy(slug)
   if (!project) notFound()
 
-  const index = projects.findIndex((p) => p.slug === project.slug)
-  const next = projects[(index + 1) % projects.length]
+  const index = caseStudies.findIndex((p) => p.slug === project.slug)
+  const next = caseStudies[(index + 1) % caseStudies.length]
 
   return (
     <article>
@@ -60,7 +71,7 @@ export default function ProjectPage({ params }: Params) {
         meta={[
           { label: 'Status', value: project.status },
           { label: 'Domains', value: project.domains.join(' · ') },
-          { label: 'Role', value: project.role.split(' - ')[0] },
+          { label: 'Role', value: project.role.split(/\s[\u2014-]\s/)[0] },
         ]}
       />
 
@@ -107,10 +118,10 @@ export default function ProjectPage({ params }: Params) {
                   </dd>
                 </div>
               </dl>
-              {project.status === 'Prototype' ? (
+              {project.status === 'Prototype' || project.status === 'In Development' ? (
                 <p className="mt-6 border-t border-hairline pt-5 text-xs leading-relaxed text-signal">
-                  This is a prototype. It is a working system I built to explore the problem, not a product with
-                  users.
+                  {project.prototypeNote ??
+                    'This is a prototype. It is a working system I built to explore the problem, not a product with users.'}
                 </p>
               ) : null}
             </div>
@@ -124,7 +135,7 @@ export default function ProjectPage({ params }: Params) {
             Architecture
           </h2>
           <p className="mb-10 max-w-prose text-base leading-relaxed text-muted">
-            The stages the system moves through, end to end.
+            {project.architectureIntro ?? 'The stages the system moves through, end to end.'}
           </p>
         </Reveal>
         <Reveal delay={0.08}>
@@ -138,12 +149,12 @@ export default function ProjectPage({ params }: Params) {
       <Section aria-labelledby="approach-heading" className="border-t border-hairline">
         <Reveal>
           <h2 id="approach-heading" className="label mb-10">
-            Approach
+            {project.approachHeading ?? 'Approach'}
           </h2>
         </Reveal>
         <Stagger className="space-y-px overflow-hidden rounded-2xl border border-hairline bg-hairline">
           {project.approach.map((section, i) => (
-            <RevealItem key={section.title} className="bg-ink p-7 transition-colors duration-500 hover:bg-surface sm:p-10">
+            <RevealItem key={section.title} className="bg-ink p-7 transition-colors duration-200 hover:bg-surface sm:p-10">
               <div className="grid gap-4 lg:grid-cols-[0.4fr_1fr] lg:gap-12">
                 <div className="flex items-start gap-3">
                   <span className="label text-[0.625rem] text-signal">{String(i + 1).padStart(2, '0')}</span>
@@ -165,17 +176,20 @@ export default function ProjectPage({ params }: Params) {
             Trade-offs worth defending, with the reasoning rather than just the outcome.
           </p>
         </Reveal>
-        <Stagger className="grid gap-5 lg:grid-cols-3" stagger={0.09}>
+        <Stagger
+          className={cn('grid gap-5', project.decisions.length % 3 === 0 ? 'lg:grid-cols-3' : 'sm:grid-cols-2')}
+          stagger={0.09}
+        >
           {project.decisions.map((decision) => (
             <RevealItem
               key={decision.title}
-              className="group relative overflow-hidden rounded-2xl border border-hairline bg-surface/40 p-7 transition-colors duration-500 hover:border-bone/20"
+              className="group relative overflow-hidden rounded-2xl border border-hairline bg-surface/40 p-7 transition-colors duration-200 hover:border-bone/20"
             >
               <h3 className="font-display text-base leading-snug tracking-tight text-bone">{decision.title}</h3>
               <p className="mt-4 text-sm leading-relaxed text-muted">{decision.body}</p>
               <span
                 aria-hidden
-                className="absolute inset-x-0 bottom-0 h-px origin-left scale-x-0 bg-signal transition-transform duration-700 ease-editorial group-hover:scale-x-100"
+                className="absolute inset-x-0 bottom-0 h-px origin-left scale-x-0 bg-signal transition-transform duration-300 ease-editorial group-hover:scale-x-100"
               />
             </RevealItem>
           ))}
@@ -187,7 +201,7 @@ export default function ProjectPage({ params }: Params) {
           <div>
             <Reveal>
               <h2 id="outcomes-heading" className="label mb-8">
-                Outcomes
+                {project.outcomesHeading ?? 'Outcomes'}
               </h2>
             </Reveal>
             <Stagger className="space-y-5" stagger={0.07}>
@@ -215,6 +229,14 @@ export default function ProjectPage({ params }: Params) {
           </div>
         </div>
       </Section>
+
+      {project.confidentialityNote ? (
+        <div className="border-t border-hairline">
+          <div className="shell py-8">
+            <p className="max-w-prose text-xs leading-relaxed text-muted">{project.confidentialityNote}</p>
+          </div>
+        </div>
+      ) : null}
 
       <nav aria-label="Project navigation" className="border-t border-hairline">
         <div className="shell flex flex-col gap-6 py-12 sm:flex-row sm:items-center sm:justify-between">

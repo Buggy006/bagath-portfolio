@@ -1,6 +1,6 @@
 import type { MetadataRoute } from 'next'
 import { navItems, siteConfig } from '@/content/site'
-import { projects } from '@/content/projects'
+import { caseStudies } from '@/content/projects'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date()
@@ -16,7 +16,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })),
   ]
 
-  const projectRoutes: MetadataRoute.Sitemap = projects.map((project) => ({
+  const projectRoutes: MetadataRoute.Sitemap = caseStudies.map((project) => ({
     url: `${base}/projects/${project.slug}`,
     lastModified: now,
     changeFrequency: 'yearly',

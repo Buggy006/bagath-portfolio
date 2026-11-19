@@ -1,5 +1,5 @@
 import { ImageResponse } from 'next/og'
-import { getProject, projects } from '@/content/projects'
+import { getCaseStudy, caseStudies } from '@/content/projects'
 import { siteConfig } from '@/content/site'
 
 export const size = { width: 1200, height: 630 }
@@ -7,11 +7,12 @@ export const contentType = 'image/png'
 export const alt = 'Project case study'
 
 export function generateStaticParams() {
-  return projects.map((project) => ({ slug: project.slug }))
+  return caseStudies.map((project) => ({ slug: project.slug }))
 }
 
-export default function Image({ params }: { params: { slug: string } }) {
-  const project = getProject(params.slug)
+export default async function Image({ params }: { params: Promise<{ slug: string }> }) {
+  const { slug } = await params
+  const project = getCaseStudy(slug)
   const title = project?.title ?? siteConfig.name
   const subtitle = project?.subtitle ?? siteConfig.role
   const stack = project?.stack.slice(0, 5).join(' · ') ?? ''

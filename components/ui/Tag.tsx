@@ -24,9 +24,12 @@ export function Tag({
   )
 }
 
-/** Status pill for projects. Prototypes are always visibly marked. */
+/**
+ * Status pill for projects. Anything not yet in production - a prototype or
+ * work still in development - is always visibly marked, never left ambiguous.
+ */
 export function StatusTag({ status }: { status: string }) {
-  const isPrototype = status === 'Prototype'
+  const isPrototype = status === 'Prototype' || status === 'In Development'
   return (
     <span
       className={cn(

@@ -30,7 +30,7 @@ export default function ProjectsPage() {
         title="Case studies, not screenshots."
         description="Every entry covers the problem it solves, the architecture, the decisions I would have to defend in review, and what I would build next. Nothing here claims a metric I cannot show."
         meta={[
-          { label: 'Case studies', value: String(projects.length) },
+          { label: 'Projects', value: String(projects.length) },
           { label: 'In production', value: String(production) },
           { label: 'Prototypes', value: String(prototypes) },
         ]}
