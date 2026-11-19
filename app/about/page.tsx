@@ -42,18 +42,21 @@ export default function AboutPage() {
         aside={
           /*
            * Native 3:4 portrait rendered at its own aspect ratio, so `cover`
-           * has nothing to crop - no risk of clipping the top of the frame.
-           * Width is capped on small screens so the column does not become a
-           * full-bleed block of vertical space above the fold.
+           * has nothing to crop - no risk of clipping the frame, and no need
+           * for an object-position correction.
+           *
+           * On phones it is centred at 72% of the content width and capped at
+           * 340px, which keeps it clearly secondary to the headline instead of
+           * filling the viewport. From `lg` it fills its grid column.
            */
-          <div className="mx-auto w-full max-w-[18rem] overflow-hidden rounded-2xl border border-hairline bg-surface/40 sm:max-w-[20rem] lg:mx-0 lg:max-w-none">
+          <div className="mx-auto w-[72%] max-w-[340px] overflow-hidden rounded-2xl border border-hairline bg-surface/40 lg:mx-0 lg:w-full lg:max-w-none">
             <Image
               src="/bagath-singh.jpg"
               alt={siteConfig.fullName}
               width={1086}
               height={1448}
               priority
-              sizes="(min-width: 1024px) 32vw, (min-width: 640px) 20rem, 18rem"
+              sizes="(min-width: 1024px) 32vw, 72vw"
               className="aspect-[3/4] h-full w-full object-cover object-center"
             />
           </div>
