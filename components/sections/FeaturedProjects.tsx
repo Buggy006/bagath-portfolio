@@ -13,7 +13,7 @@ export function FeaturedProjects() {
           id="featured-heading"
           eyebrow="Selected work"
           title="Systems I have designed and shipped."
-          description="Each case study covers the problem, the architecture, the trade-offs I made and what I would do next. Prototypes are labelled as prototypes."
+          description="A closer look at the problems I worked on, the systems I built, the decisions behind them and what I’d improve next. Prototypes are clearly labelled."
         />
         <Link href="/projects" className="link-underline shrink-0 pb-2 text-sm">
           All projects
@@ -21,7 +21,7 @@ export function FeaturedProjects() {
         </Link>
       </div>
 
-      <Stagger className="mt-14 grid gap-5 lg:grid-cols-3" stagger={0.1}>
+      <Stagger className="mt-14 grid gap-5 sm:grid-cols-2" stagger={0.1}>
         {featuredProjects.map((project, index) => (
           <ProjectCard key={project.slug} project={project} index={index} />
         ))}

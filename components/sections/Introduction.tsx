@@ -2,11 +2,35 @@ import { Section } from '@/components/ui/Section'
 import { Reveal, Stagger, RevealItem } from '@/components/ui/Reveal'
 import { FlowDiagram } from '@/components/visuals/FlowDiagram'
 
+/**
+ * Copy lives in constants rather than inline JSX so that typographic
+ * punctuation (’) stays readable in source and never trips
+ * `react/no-unescaped-entities`.
+ */
+const INTRO_PARAGRAPHS = [
+  'Most systems work on a laptop, with clean data and the right conditions. Engineering starts when they need to be reproducible, deployed by someone else, resilient to change, and maintainable long after the first release.',
+  'That’s where I focus: infrastructure built from code, pipelines designed to be repeatable, data systems that evolve without breaking everything around them, and software that makes its behaviour clear.',
+]
+
+/** Each principle is a claim plus the practice that backs it up. */
 const PRINCIPLES = [
-  'Environments are rebuilt, not repaired.',
-  'Raw data is written once and never edited.',
-  'Model output is versioned data, not a side effect.',
-  'Failure stays local to the stage that caused it.',
+  {
+    title: 'Infrastructure is defined, not improvised.',
+    detail: 'Reproducible environments. Declarative infrastructure. Predictable deployments.',
+  },
+  {
+    title: 'Data should be traceable, not overwritten.',
+    detail: 'Preserve source data. Track transformations. Make pipelines repeatable.',
+  },
+  {
+    title: 'Intelligence should be engineered, not bolted on.',
+    detail:
+      'Integrate AI into systems with clear boundaries, observable behaviour and meaningful outputs.',
+  },
+  {
+    title: 'Failures should be contained, not contagious.',
+    detail: 'Design for observability, recovery and resilience at every stage.',
+  },
 ]
 
 const SHAPE_OF_WORK = [
@@ -30,29 +54,25 @@ export function Introduction() {
             I care about the part of the system that is still working in a year.
           </h2>
           <div className="mt-7 space-y-5 text-base leading-relaxed text-muted">
-            <p>
-              Almost anything works once, on a laptop, with a clean dataset. The engineering begins when it has to
-              run twice, be deployed by someone else, survive a schema change, and still be understandable to the
-              person who inherits it.
-            </p>
-            <p>
-              So my work tends to concentrate in the same places: infrastructure you can recreate from source,
-              pipelines that are safe to re-run, storage that tolerates change, and interfaces honest about what
-              they are showing.
-            </p>
+            {INTRO_PARAGRAPHS.map((paragraph) => (
+              <p key={paragraph.slice(0, 32)}>{paragraph}</p>
+            ))}
           </div>
         </Reveal>
 
         <Stagger className="space-y-3" stagger={0.07}>
           {PRINCIPLES.map((principle, i) => (
             <RevealItem
-              key={principle}
-              className="flex items-start gap-4 rounded-xl border border-hairline bg-surface/40 px-5 py-4 transition-colors duration-500 hover:border-signal/30"
+              key={principle.title}
+              className="flex items-start gap-4 rounded-xl border border-hairline bg-surface/40 px-5 py-4 transition-colors duration-200 hover:border-signal/30"
             >
               <span className="label mt-0.5 shrink-0 text-[0.625rem] text-signal">
                 {String(i + 1).padStart(2, '0')}
               </span>
-              <p className="text-sm leading-relaxed text-bone/85">{principle}</p>
+              <div>
+                <p className="font-display text-sm leading-snug text-bone">{principle.title}</p>
+                <p className="mt-1.5 text-[0.8125rem] leading-relaxed text-muted">{principle.detail}</p>
+              </div>
             </RevealItem>
           ))}
         </Stagger>
