@@ -1,9 +1,19 @@
 import type { Metadata } from 'next'
+import Image from 'next/image'
 import { PageHeader } from '@/components/ui/PageHeader'
 import { Section, SectionHeading } from '@/components/ui/Section'
 import { Reveal, Stagger, RevealItem } from '@/components/ui/Reveal'
 import { ContactCTA } from '@/components/sections/ContactCTA'
-import { aboutIntro, journey, philosophy, workingWith } from '@/content/about'
+import {
+  aboutIntro,
+  journey,
+  journeyIntro,
+  philosophy,
+  philosophyIntro,
+  workingWith,
+  workingWithClosing,
+  workingWithIntro,
+} from '@/content/about'
 import { pageOpenGraph, siteConfig } from '@/content/site'
 
 export const metadata: Metadata = {
@@ -22,26 +32,45 @@ export default function AboutPage() {
     <>
       <PageHeader
         eyebrow="About"
-        title="An engineer who works where infrastructure, data and models meet."
-        description={aboutIntro[0]}
+        title="An engineer working across cloud, data and AI."
+        description={aboutIntro}
         meta={[
           { label: 'Name', value: siteConfig.fullName },
           { label: 'Focus', value: 'Cloud · Data · AI' },
           { label: 'Based in', value: siteConfig.location },
         ]}
+        aside={
+          /*
+           * Native 3:4 portrait rendered at its own aspect ratio, so `cover`
+           * has nothing to crop - no risk of clipping the top of the frame.
+           * Width is capped on small screens so the column does not become a
+           * full-bleed block of vertical space above the fold.
+           */
+          <div className="mx-auto w-full max-w-[18rem] overflow-hidden rounded-2xl border border-hairline bg-surface/40 sm:max-w-[20rem] lg:mx-0 lg:max-w-none">
+            <Image
+              src="/bagath-singh.jpg"
+              alt={siteConfig.fullName}
+              width={1086}
+              height={1448}
+              priority
+              sizes="(min-width: 1024px) 32vw, (min-width: 640px) 20rem, 18rem"
+              className="aspect-[3/4] h-full w-full object-cover object-center"
+            />
+          </div>
+        }
       />
 
       <Section aria-labelledby="journey-heading" className="pt-16 sm:pt-20">
         <SectionHeading
           id="journey-heading"
           eyebrow="Professional journey"
-          title="How the focus narrowed."
-          description={aboutIntro[1]}
+          title="How the focus evolved."
+          description={journeyIntro}
         />
 
         <Stagger className="mt-14 space-y-px overflow-hidden rounded-2xl border border-hairline bg-hairline">
           {journey.map((stage, index) => (
-            <RevealItem key={stage.title} className="bg-ink p-7 transition-colors duration-500 hover:bg-surface sm:p-10">
+            <RevealItem key={stage.title} className="bg-ink p-7 transition-colors duration-200 hover:bg-surface sm:p-10">
               <div className="grid gap-5 lg:grid-cols-[0.35fr_1fr] lg:gap-12">
                 <div>
                   <span className="label text-[0.625rem] text-signal">{String(index + 1).padStart(2, '0')}</span>
@@ -61,21 +90,28 @@ export default function AboutPage() {
         <SectionHeading
           id="philosophy-heading"
           eyebrow="Engineering philosophy"
-          title="Opinions I have had to earn."
-          description="None of these are abstract preferences. Each one is the residue of a system that was harder to operate than it needed to be."
+          title="Principles that shape how I engineer software."
+          description={philosophyIntro}
         />
 
         <Stagger className="mt-14 grid gap-5 md:grid-cols-2" stagger={0.08}>
-          {philosophy.map((item) => (
+          {philosophy.map((item, index) => (
             <RevealItem
               key={item.title}
-              className="group relative overflow-hidden rounded-2xl border border-hairline bg-surface/40 p-7 transition-colors duration-500 hover:border-bone/20 sm:p-9"
+              className="group relative flex h-full flex-col overflow-hidden rounded-2xl border border-hairline bg-surface/40 p-7 transition-colors duration-200 hover:border-bone/20 sm:p-9"
             >
-              <h3 className="font-display text-lg tracking-tight text-bone">{item.title}</h3>
+              <div className="flex items-center gap-3">
+                <span className="label text-[0.625rem] text-signal">{String(index + 1).padStart(2, '0')}</span>
+                <span aria-hidden className="h-3 w-px bg-hairline" />
+                <span className="label text-[0.5625rem] text-muted/70">{item.category}</span>
+              </div>
+              <h3 className="mt-5 font-display text-lg leading-snug tracking-tight text-bone sm:text-xl">
+                {item.title}
+              </h3>
               <p className="mt-4 text-sm leading-relaxed text-muted">{item.body}</p>
               <span
                 aria-hidden
-                className="absolute inset-x-0 bottom-0 h-px origin-left scale-x-0 bg-signal transition-transform duration-700 ease-editorial group-hover:scale-x-100"
+                className="absolute inset-x-0 bottom-0 h-px origin-left scale-x-0 bg-signal transition-transform duration-300 ease-editorial group-hover:scale-x-100"
               />
             </RevealItem>
           ))}
@@ -84,7 +120,12 @@ export default function AboutPage() {
 
       <Section aria-labelledby="working-heading" className="border-t border-hairline">
         <div className="grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
-          <SectionHeading id="working-heading" eyebrow="Working together" title="What I am like to work with." />
+          <SectionHeading
+            id="working-heading"
+            eyebrow="Working together"
+            title="What I am like to work with."
+            description={workingWithIntro}
+          />
           <Reveal delay={0.1}>
             <ul className="space-y-5">
               {workingWith.map((line) => (
@@ -94,6 +135,9 @@ export default function AboutPage() {
                 </li>
               ))}
             </ul>
+            <p className="mt-8 max-w-prose text-sm leading-relaxed text-bone/85 sm:text-base">
+              {workingWithClosing}
+            </p>
           </Reveal>
         </div>
       </Section>
