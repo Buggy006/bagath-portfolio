@@ -16,11 +16,33 @@ export const metadata: Metadata = {
   }),
 }
 
-const LOOKING_FOR = [
-  'Cloud Platform Engineer roles - infrastructure as code, containers, delivery pipelines.',
-  'Data Engineer roles - ingestion, lakehouse table design, SQL-first serving layers.',
-  'AI Engineer roles - putting models into real pipelines and products.',
+const LOOKING_FOR_LEAD = 'Backend engineering at the intersection of cloud, data and AI.'
+
+const LOOKING_FOR_INTRO =
+  'I’m interested in building robust backend systems, designing scalable APIs and services, and working on the infrastructure and data platforms that power modern applications.'
+
+/** Ordered deliberately: backend first, then the systems it sits across. */
+const FOCUS_AREAS = [
+  {
+    title: 'Backend Engineering',
+    detail: 'Python, API design, distributed systems, asynchronous processing and reliable backend services.',
+  },
+  {
+    title: 'Cloud & Platform Engineering',
+    detail: 'AWS, Infrastructure as Code, containers, CI/CD and cloud-native platform automation.',
+  },
+  {
+    title: 'Data Engineering',
+    detail: 'Data pipelines, lakehouse architectures, analytical platforms and reliable data infrastructure.',
+  },
+  {
+    title: 'AI Engineering',
+    detail: 'LLM-powered applications, agentic workflows, retrieval systems and practical AI integrations.',
+  },
 ]
+
+const LOOKING_FOR_CLOSING =
+  'Open to full-time opportunities · Collaborative engineering teams · International opportunities'
 
 export default function ContactPage() {
   const socials = getSocialLinks()
@@ -31,7 +53,7 @@ export default function ContactPage() {
       <PageHeader
         eyebrow="Contact"
         title="Let's talk about what you're building."
-        description="The quickest way to reach me is LinkedIn. My code is public on GitHub if you would rather read something before writing anything."
+        description="Email or LinkedIn both reach me directly. My code is public on GitHub if you would rather read something before writing anything."
         meta={[
           { label: 'Based in', value: siteConfig.location },
           { label: 'Open to', value: 'Full-time roles' },
@@ -56,9 +78,9 @@ export default function ContactPage() {
                       href={social.href}
                       target={isMail ? undefined : '_blank'}
                       rel={isMail ? undefined : 'noopener noreferrer'}
-                      className="group flex items-center gap-5 bg-ink px-6 py-7 transition-colors duration-500 hover:bg-surface sm:px-8"
+                      className="group flex items-center gap-5 bg-ink px-6 py-7 transition-colors duration-200 hover:bg-surface sm:px-8"
                     >
-                      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-hairline bg-bone/[0.03] transition-colors duration-500 group-hover:border-signal/40">
+                      <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-hairline bg-bone/[0.03] transition-colors duration-200 group-hover:border-signal/40">
                         <Icon aria-hidden className="h-5 w-5 text-signal" strokeWidth={1.5} />
                       </span>
                       <span className="min-w-0 flex-1">
@@ -67,7 +89,7 @@ export default function ContactPage() {
                       </span>
                       <ArrowUpRight
                         aria-hidden
-                        className="h-5 w-5 shrink-0 text-muted transition-all duration-500 ease-editorial group-hover:text-signal motion-safe:group-hover:translate-x-1 motion-safe:group-hover:-translate-y-1"
+                        className="h-5 w-5 shrink-0 text-muted transition-all duration-200 ease-editorial group-hover:text-signal motion-safe:group-hover:translate-x-1 motion-safe:group-hover:-translate-y-1"
                       />
                     </a>
                   </RevealItem>
@@ -86,15 +108,28 @@ export default function ContactPage() {
           </div>
 
           <Reveal delay={0.12}>
-            <h2 className="label mb-8">What I am looking for</h2>
-            <ul className="space-y-5">
-              {LOOKING_FOR.map((item) => (
-                <li key={item} className="flex gap-4 border-b border-hairline pb-5 last:border-0">
-                  <span aria-hidden className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-signal" />
-                  <p className="text-sm leading-relaxed text-muted">{item}</p>
+            <h2 className="label mb-6">What I am looking for</h2>
+
+            <p className="font-display text-lg leading-snug tracking-tight text-bone sm:text-xl">
+              {LOOKING_FOR_LEAD}
+            </p>
+            <p className="mt-3 max-w-prose text-sm leading-relaxed text-muted">{LOOKING_FOR_INTRO}</p>
+
+            <ul className="mt-8 space-y-5">
+              {FOCUS_AREAS.map((area, i) => (
+                <li key={area.title} className="flex gap-4 border-b border-hairline pb-5 last:border-0">
+                  <span className="label mt-0.5 shrink-0 text-[0.625rem] text-signal">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  <div>
+                    <p className="font-display text-sm leading-snug text-bone">{area.title}</p>
+                    <p className="mt-1.5 text-sm leading-relaxed text-muted">{area.detail}</p>
+                  </div>
                 </li>
               ))}
             </ul>
+
+            <p className="mt-7 text-xs leading-relaxed text-muted">{LOOKING_FOR_CLOSING}</p>
 
             <div className="mt-10 rounded-xl border border-hairline bg-surface/40 p-6">
               <p className="text-sm leading-relaxed text-muted">

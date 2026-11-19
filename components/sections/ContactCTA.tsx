@@ -1,6 +1,9 @@
 import { Reveal } from '@/components/ui/Reveal'
 import { ButtonLink } from '@/components/ui/ButtonLink'
-import { getSocialLinks, siteConfig } from '@/content/site'
+import { getSocialLinks } from '@/content/site'
+
+/** Primary positioning, shown wherever this section appears. */
+const PROFESSIONAL_IDENTITY = 'Backend Engineering · Cloud · Data · AI'
 
 export function ContactCTA() {
   const socials = getSocialLinks()
@@ -21,11 +24,11 @@ export function ContactCTA() {
             Open to opportunities
           </p>
           <h2 id="contact-cta-heading" className="font-display text-display-lg text-balance text-bone">
-            Looking for a Cloud Platform, Data or AI engineer?
+            Backend Engineer building across Cloud, Data &amp; AI.
           </h2>
           <p className="mt-6 max-w-prose text-base leading-relaxed text-muted sm:text-lg">
-            I am interested in teams building infrastructure, data platforms or AI-backed products where the
-            engineering quality of the system matters as much as the demo.
+            Interested in backend engineering roles involving scalable services, cloud platforms, data
+            infrastructure and AI-powered applications.
           </p>
 
           <div className="mt-10 flex flex-wrap items-center gap-4">
@@ -44,9 +47,7 @@ export function ContactCTA() {
             ))}
           </div>
 
-          <p className="mt-10 text-sm text-muted">
-            Based in {siteConfig.location} · {siteConfig.role}
-          </p>
+          <p className="mt-10 text-sm text-muted">{PROFESSIONAL_IDENTITY}</p>
         </Reveal>
       </div>
     </section>

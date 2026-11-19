@@ -12,7 +12,7 @@ export const siteConfig = {
   name: 'Buggy',
   /** Legal name, used for structured data and document titles. */
   fullName: 'Bagath Singh',
-  role: 'Cloud Platform + Data + AI Engineer',
+  role: 'Backend Engineer · Cloud · Data · AI',
   /** Short job title shown at the top of the home hero. */
   title: 'Software Engineer',
   /** Full attribution line shown in the home hero. */
@@ -29,11 +29,10 @@ export const siteConfig = {
    */
   url: process.env.NEXT_PUBLIC_SITE_URL ?? 'https://bagath.dev',
   /**
-   * Contact channels. `email` is intentionally null until a public address is
-   * chosen - the UI omits the channel entirely rather than rendering a dead
-   * mailto: link. Fill it in here and it appears everywhere automatically.
+   * Contact channels. Setting `email` adds the channel everywhere automatically;
+   * leaving it null omits it rather than rendering a dead mailto: link.
    */
-  email: null as string | null,
+  email: 'bagath006@gmail.com' as string | null,
   github: 'https://github.com/buggy006',
   linkedin: 'https://www.linkedin.com/in/bagath-singh-40aba0216/',
 } as const
