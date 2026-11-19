@@ -5,6 +5,7 @@ import { SiteHeader } from '@/components/layout/SiteHeader'
 import { SiteFooter } from '@/components/layout/SiteFooter'
 import { PointerGlow } from '@/components/visuals/PointerGlow'
 import { SmoothScroll } from '@/components/providers/SmoothScroll'
+import { Analytics } from '@vercel/analytics/next'
 import { siteConfig } from '@/content/site'
 
 /**
@@ -102,6 +103,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           {children}
         </main>
         <SiteFooter />
+        {/*
+         * Vercel Web Analytics. Rendered once in the root layout so page views
+         * are tracked across every route without re-mounting on navigation.
+         * It is anonymous and cookieless by default - no custom events are
+         * sent, and nothing user-identifying is passed to it.
+         */}
+        <Analytics />
         <script
           type="application/ld+json"
           // Serialised from a local object literal - no user input reaches this.
