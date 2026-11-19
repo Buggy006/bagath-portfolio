@@ -31,6 +31,29 @@
     scroll-margin-top: 6rem;
   }
 
+  /*
+   * Lenis support rules, inlined from the package stylesheet so the design
+   * system stays in one file. Lenis adds these classes to <html> only while it
+   * is actually running, so none of this applies under reduced motion, on
+   * touch devices, or if the script fails to load.
+   */
+  html.lenis,
+  html.lenis body {
+    height: auto;
+  }
+
+  .lenis:not(.lenis-autoToggle).lenis-stopped {
+    overflow: clip;
+  }
+
+  .lenis [data-lenis-prevent] {
+    overscroll-behavior: contain;
+  }
+
+  .lenis.lenis-smooth iframe {
+    pointer-events: none;
+  }
+
   body {
     @apply bg-ink text-bone font-sans antialiased;
     font-feature-settings: 'ss01' 1, 'cv05' 1;

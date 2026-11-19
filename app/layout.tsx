@@ -4,6 +4,7 @@ import './globals.css'
 import { SiteHeader } from '@/components/layout/SiteHeader'
 import { SiteFooter } from '@/components/layout/SiteFooter'
 import { PointerGlow } from '@/components/visuals/PointerGlow'
+import { SmoothScroll } from '@/components/providers/SmoothScroll'
 import { siteConfig } from '@/content/site'
 
 /**
@@ -94,6 +95,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         >
           Skip to content
         </a>
+        <SmoothScroll />
         <PointerGlow />
         <SiteHeader />
         <main id="main" className="relative z-10 pt-16 sm:pt-20">
