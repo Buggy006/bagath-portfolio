@@ -90,7 +90,7 @@ type StaggerProps = {
 export function Stagger({
   children,
   className,
-  stagger = 0.06,
+  stagger = 0.055,
   delay = 0,
   as = 'div',
   immediate = false,

@@ -17,13 +17,13 @@ export const DURATION = {
   /** Route transition. Long enough to read as intentional, short enough to feel instant. */
   page: 0.3,
   /** Section entrance on scroll. */
-  reveal: 0.42,
+  reveal: 0.46,
   /** Collapsed value used when the visitor prefers reduced motion. */
   reduced: 0.15,
 } as const
 
 /** Entrance travel distance in px. Transform only - never animates layout. */
-export const REVEAL_Y = 14
+export const REVEAL_Y = 22
 
 /**
  * Has the app finished its first client render?
