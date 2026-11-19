@@ -3,7 +3,8 @@
 import { motion, useReducedMotion } from 'framer-motion'
 import { ArrowDown } from 'lucide-react'
 import { siteConfig } from '@/content/site'
-import { EASE_EDITORIAL } from '@/lib/motion'
+import { DURATION, EASE_EDITORIAL } from '@/lib/motion'
+import { useEntrance } from '@/lib/use-entrance'
 import { GridBackdrop } from '@/components/visuals/GridBackdrop'
 import { ButtonLink } from '@/components/ui/ButtonLink'
 
@@ -22,15 +23,17 @@ const COORDINATES = [
 
 export function Hero() {
   const reduced = useReducedMotion()
+  // The hero is the first thing rendered - it must never ship hidden.
+  const { ref, armed } = useEntrance<HTMLDivElement>()
 
   const container = {
     hidden: {},
-    show: { transition: { staggerChildren: reduced ? 0.02 : 0.09, delayChildren: reduced ? 0 : 0.12 } },
+    show: { transition: { staggerChildren: reduced ? 0.02 : 0.05, delayChildren: reduced ? 0 : 0.04 } },
   }
 
   const item = {
     hidden: { opacity: 0, y: reduced ? 0 : 26 },
-    show: { opacity: 1, y: 0, transition: { duration: reduced ? 0.25 : 0.85, ease: EASE_EDITORIAL } },
+    show: { opacity: 1, y: 0, transition: { duration: reduced ? DURATION.reduced : 0.5, ease: EASE_EDITORIAL } },
   }
 
   return (
@@ -38,10 +41,10 @@ export function Hero() {
       <GridBackdrop />
 
       <div className="shell relative flex min-h-[calc(100svh-5rem)] flex-col justify-center py-24 sm:py-28">
-        <motion.div variants={container} initial="hidden" animate="show">
+        <motion.div ref={ref} {...(armed ? { variants: container, initial: 'hidden' as const, animate: 'show' as const } : {})}>
           <motion.p variants={item} className="label flex flex-wrap items-center gap-x-3 gap-y-2">
             <span aria-hidden className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full rounded-full bg-signal opacity-60 motion-safe:animate-ping" />
+              <span className="absolute inline-flex h-full w-full rounded-full bg-signal/30" />
               <span className="relative inline-flex h-2 w-2 rounded-full bg-signal" />
             </span>
             {siteConfig.title}
@@ -84,7 +87,7 @@ export function Hero() {
                       show: {
                         y: 0,
                         opacity: 1,
-                        transition: { duration: reduced ? 0.25 : 0.8, ease: EASE_EDITORIAL },
+                        transition: { duration: reduced ? DURATION.reduced : 0.45, ease: EASE_EDITORIAL },
                       },
                     }}
                     className={word === '&' ? 'inline-block text-signal' : 'inline-block'}
@@ -121,13 +124,17 @@ export function Hero() {
         </motion.div>
 
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: reduced ? 0 : 1.4, duration: 0.8 }}
+          {...(armed
+            ? {
+                initial: { opacity: 0 },
+                animate: { opacity: 1 },
+                transition: { delay: reduced ? 0 : 0.8, duration: DURATION.reveal },
+              }
+            : {})}
           className="pointer-events-none absolute bottom-8 right-5 hidden items-center gap-3 sm:right-8 lg:flex lg:px-4"
         >
           <span className="label text-[0.625rem]">Scroll</span>
-          <ArrowDown aria-hidden className="h-4 w-4 text-muted motion-safe:animate-bounce" />
+          <ArrowDown aria-hidden className="h-4 w-4 text-muted" />
         </motion.div>
       </div>
     </section>

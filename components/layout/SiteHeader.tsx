@@ -7,7 +7,7 @@ import { AnimatePresence, motion, useReducedMotion } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
 import { navItems, siteConfig } from '@/content/site'
 import { cn } from '@/lib/utils'
-import { EASE_EDITORIAL } from '@/lib/motion'
+import { DURATION, EASE_EDITORIAL } from '@/lib/motion'
 
 export function SiteHeader() {
   const pathname = usePathname()
@@ -48,7 +48,7 @@ export function SiteHeader() {
   return (
     <header
       className={cn(
-        'fixed inset-x-0 top-0 z-50 transition-colors duration-500 ease-editorial',
+        'fixed inset-x-0 top-0 z-50 transition-colors duration-300 ease-editorial',
         scrolled ? 'border-b border-hairline bg-ink/80 backdrop-blur-xl' : 'border-b border-transparent',
       )}
     >
@@ -59,7 +59,7 @@ export function SiteHeader() {
           aria-label={`${siteConfig.name} - home`}
         >
           <span className="text-bone">{siteConfig.name}</span>
-          <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-signal transition-transform duration-500 group-hover:scale-150" />
+          <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-signal transition-transform duration-200 group-hover:scale-150" />
         </Link>
 
         <nav aria-label="Primary" className="hidden md:block">
@@ -70,7 +70,7 @@ export function SiteHeader() {
                   href={item.href}
                   aria-current={isActive(item.href) ? 'page' : undefined}
                   className={cn(
-                    'relative rounded-full px-4 py-2 text-sm transition-colors duration-300',
+                    'relative rounded-full px-4 py-2 text-sm transition-colors duration-200',
                     isActive(item.href) ? 'text-bone' : 'text-muted hover:text-bone',
                   )}
                 >
@@ -78,7 +78,7 @@ export function SiteHeader() {
                     <motion.span
                       layoutId="nav-active"
                       className="absolute inset-0 rounded-full bg-bone/[0.07]"
-                      transition={reduced ? { duration: 0 } : { duration: 0.45, ease: EASE_EDITORIAL }}
+                      transition={reduced ? { duration: 0 } : { duration: DURATION.nav, ease: EASE_EDITORIAL }}
                     />
                   ) : null}
                   <span className="relative">{item.label}</span>
@@ -107,7 +107,7 @@ export function SiteHeader() {
             initial={{ opacity: 0, y: reduced ? 0 : -8 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: reduced ? 0 : -8 }}
-            transition={{ duration: reduced ? 0.15 : 0.35, ease: EASE_EDITORIAL }}
+            transition={{ duration: reduced ? DURATION.reduced : 0.28, ease: EASE_EDITORIAL }}
             className="border-t border-hairline bg-ink/95 backdrop-blur-xl md:hidden"
           >
             <nav aria-label="Mobile" className="shell py-6">
@@ -117,7 +117,7 @@ export function SiteHeader() {
                     key={item.href}
                     initial={{ opacity: 0, x: reduced ? 0 : -10 }}
                     animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: reduced ? 0 : 0.04 * i, duration: 0.4, ease: EASE_EDITORIAL }}
+                    transition={{ delay: reduced ? 0 : 0.03 * i, duration: DURATION.nav, ease: EASE_EDITORIAL }}
                     className="border-b border-hairline last:border-0"
                   >
                     <Link

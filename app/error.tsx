@@ -40,7 +40,7 @@ export default function Error({ error, reset }: { error: Error & { digest?: stri
             className="group inline-flex items-center gap-2.5 rounded-full bg-bone px-6 py-3 text-sm font-medium text-ink transition-colors duration-300 hover:bg-signal hover:text-bone"
           >
             Try again
-            <RotateCw aria-hidden className="h-4 w-4 transition-transform duration-500 group-hover:rotate-180" />
+            <RotateCw aria-hidden className="h-4 w-4 transition-transform duration-200 group-hover:rotate-180" />
           </button>
           <Link
             href="/"

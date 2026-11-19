@@ -47,7 +47,7 @@ export default function SkillsPage() {
             return (
               <RevealItem
                 key={group.id}
-                className="group relative flex flex-col overflow-hidden rounded-2xl border border-hairline bg-surface/40 p-7 transition-colors duration-500 hover:border-bone/20 sm:p-9"
+                className="group relative flex flex-col overflow-hidden rounded-2xl border border-hairline bg-surface/40 p-7 transition-colors duration-200 hover:border-bone/20 sm:p-9"
               >
                 <div className="flex items-start gap-4">
                   <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-hairline bg-bone/[0.03]">
@@ -77,7 +77,7 @@ export default function SkillsPage() {
 
                 <span
                   aria-hidden
-                  className="absolute inset-x-0 bottom-0 h-px origin-left scale-x-0 bg-signal transition-transform duration-700 ease-editorial group-hover:scale-x-100"
+                  className="absolute inset-x-0 bottom-0 h-px origin-left scale-x-0 bg-signal transition-transform duration-300 ease-editorial group-hover:scale-x-100"
                 />
               </RevealItem>
             )

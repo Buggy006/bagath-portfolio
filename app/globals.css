@@ -15,9 +15,20 @@
     border-color: theme('colors.hairline');
   }
 
+  /*
+   * No global `scroll-behavior: smooth`. Next.js resets scroll position on every
+   * route change, and a smooth html scroll animates that reset - so the incoming
+   * page fades in while the viewport is still gliding, which reads as lag. The
+   * only in-page anchor is the skip link, where an instant jump is also the
+   * better accessibility behaviour.
+   */
   html {
-    scroll-behavior: smooth;
     -webkit-text-size-adjust: 100%;
+  }
+
+  /* Keep anchor targets clear of the fixed header. */
+  :target {
+    scroll-margin-top: 6rem;
   }
 
   body {
@@ -39,9 +50,6 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    html {
-      scroll-behavior: auto;
-    }
     *,
     *::before,
     *::after {
@@ -85,7 +93,7 @@
 
   .link-underline::after {
     content: '';
-    @apply absolute -bottom-0.5 left-0 h-px w-full origin-right scale-x-0 bg-signal transition-transform duration-500 ease-editorial;
+    @apply absolute -bottom-0.5 left-0 h-px w-full origin-right scale-x-0 bg-signal transition-transform duration-200 ease-editorial;
   }
 
   .link-underline:hover::after,
